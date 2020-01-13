@@ -8,20 +8,20 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Repository;
 
-import com.increff.employee.pojo.EmployeePojo;
+import com.increff.employee.pojo.BrandPojo;
 
 @Repository
 public class EmployeeInMemDao {
 
-	private HashMap<Integer, EmployeePojo> rows;
+	private HashMap<Integer, BrandPojo> rows;
 	private int lastId;
 
 	@PostConstruct
 	public void init() {
-		rows = new HashMap<Integer, EmployeePojo>();
+		rows = new HashMap<Integer, BrandPojo>();
 	}
 	
-	public void insert(EmployeePojo p) {
+	public void insert(BrandPojo p) {
 		lastId++;
 		p.setId(lastId);
 		rows.put(lastId, p);
@@ -31,17 +31,17 @@ public class EmployeeInMemDao {
 		rows.remove(id);
 	}
 
-	public EmployeePojo select(int id) {
+	public BrandPojo select(int id) {
 		return rows.get(id);
 	}
 	
-	public List<EmployeePojo> selectAll() {
-		ArrayList<EmployeePojo> list = new ArrayList<EmployeePojo>();
+	public List<BrandPojo> selectAll() {
+		ArrayList<BrandPojo> list = new ArrayList<BrandPojo>();
 		list.addAll(rows.values());
 		return list;
 	}
 
-	public void update(int id, EmployeePojo p) {
+	public void update(int id, BrandPojo p) {
 		rows.put(id, p);
 	}
 
