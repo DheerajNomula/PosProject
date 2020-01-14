@@ -84,17 +84,17 @@ var fileData = [];
 var errorData = [];
 var processCount = 0;
 
-
+//donw
 function processData(){
 	var file = $('#employeeFile')[0].files[0];
 	readFileData(file, readFileDataCallback);
 }
-
+//done
 function readFileDataCallback(results){
 	fileData = results.data;
 	uploadRows();
 }
-
+//done
 function uploadRows(){
 	//Update progress
 	updateUploadDialog();
@@ -129,7 +129,7 @@ function uploadRows(){
 	});
 
 }
-
+//done
 function downloadErrors(){
 	writeFileData(errorData);
 }
@@ -164,7 +164,7 @@ function displayEditEmployee(id){
 	   error: handleAjaxError
 	});	
 }
-
+//done
 function resetUploadDialog(){
 	//Reset file name
 	var $file = $('#employeeFile');
@@ -177,19 +177,20 @@ function resetUploadDialog(){
 	//Update counts	
 	updateUploadDialog();
 }
-
+//done
 function updateUploadDialog(){
 	$('#rowCount').html("" + fileData.length);
 	$('#processCount').html("" + processCount);
 	$('#errorCount').html("" + errorData.length);
 }
-
+//done
 function updateFileName(){
 	var $file = $('#employeeFile');
 	var fileName = $file.val();
 	$('#employeeFileName').html(fileName);
 }
 
+//done
 function displayUploadData(){
  	resetUploadDialog(); 	
 	$('#upload-employee-modal').modal('toggle');
