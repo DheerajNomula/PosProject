@@ -19,4 +19,12 @@ public class BrandForm {
     public void setBrandCategory(String brandCategory) {
         this.brandCategory = brandCategory;
     }
+
+    @Override
+    public String toString() {
+        return "BrandForm{" +
+                "brandName='" + brandName + '\'' +
+                ", brandCategory='" + brandCategory + '\'' +
+                '}';
+    }
 }

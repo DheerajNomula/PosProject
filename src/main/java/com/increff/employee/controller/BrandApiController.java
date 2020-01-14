@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//
 @Api
 @RestController
 public class BrandApiController {
@@ -56,6 +56,7 @@ public class BrandApiController {
     @ApiOperation(value = "Updates an brand")
     @RequestMapping(path = "/api/brand/{id}", method = RequestMethod.PUT)
     public void update(@PathVariable int id, @RequestBody BrandForm f) throws ApiException {
+        //System.out.println(f);
         BrandPojo p = convert(f);
         brandService.update(id, p);
     }

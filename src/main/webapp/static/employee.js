@@ -1,10 +1,10 @@
-
+//done
 function getEmployeeUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	return baseUrl + "/api/employee";
 }
 
-//BUTTON ACTIONS
+//BUTTON ACTIONS//done
 function addEmployee(event){
 	//Set the values to update
 	var $form = $("#employee-form");
@@ -26,7 +26,7 @@ function addEmployee(event){
 
 	return false;
 }
-
+//done
 function updateEmployee(event){
 	$('#edit-employee-modal').modal('toggle');
 	//Get the ID
@@ -53,7 +53,7 @@ function updateEmployee(event){
 	return false;
 }
 
-
+//done
 function getEmployeeList(){
 	var url = getEmployeeUrl();
 	$.ajax({
@@ -65,7 +65,7 @@ function getEmployeeList(){
 	   error: handleAjaxError
 	});
 }
-
+//done
 function deleteEmployee(id){
 	var url = getEmployeeUrl() + "/" + id;
 
@@ -135,7 +135,7 @@ function downloadErrors(){
 }
 
 //UI DISPLAY METHODS
-
+//done
 function displayEmployeeList(data){
 	var $tbody = $('#employee-table').find('tbody');
 	$tbody.empty();
@@ -152,7 +152,7 @@ function displayEmployeeList(data){
         $tbody.append(row);
 	}
 }
-
+//done
 function displayEditEmployee(id){
 	var url = getEmployeeUrl() + "/" + id;
 	$.ajax({
@@ -194,7 +194,7 @@ function displayUploadData(){
  	resetUploadDialog(); 	
 	$('#upload-employee-modal').modal('toggle');
 }
-
+//done
 function displayEmployee(data){
 	$("#employee-edit-form input[name=name]").val(data.name);	
 	$("#employee-edit-form input[name=age]").val(data.age);	
