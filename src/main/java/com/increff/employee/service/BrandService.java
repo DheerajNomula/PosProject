@@ -20,16 +20,19 @@ public class BrandService {
         if(StringUtil.isEmpty(brandPojo.getBrandName())){
             throw new ApiException("name cannot be empty");
         }
+        if(StringUtil.isEmpty(brandPojo.getBrandCategory())){
+            throw new ApiException("category cannot be empty");
+        }
         brandDao.insert(brandPojo);
     }
 
     private void normalize(BrandPojo brandPojo) throws ApiException {
         brandPojo.setBrandName(StringUtil.toLowerCase(brandPojo.getBrandName()));
         brandPojo.setBrandCategory(StringUtil.toLowerCase(brandPojo.getBrandCategory()));
-        checkForDuplicate(brandPojo);
+        //checkForDuplicate(brandPojo);no need added unique constraint
     }
 
-    @Transactional(rollbackOn = ApiException.class)
+    /*@Transactional(rollbackOn = ApiException.class)
     private void checkForDuplicate(BrandPojo brandPojo) throws ApiException {
         String newBrandPojoCategory=brandPojo.getBrandCategory();
         String newBrandPojoName=brandPojo.getBrandName();
@@ -39,7 +42,7 @@ public class BrandService {
                 throw new ApiException("Brand with name : "+newBrandPojoName+" and category : "+newBrandPojoCategory+"already exists !!");
             }
         }
-    }
+    }*/
 
     @Transactional(rollbackOn = ApiException.class)
     public void delete(int id){

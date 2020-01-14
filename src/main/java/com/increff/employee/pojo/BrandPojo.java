@@ -2,20 +2,21 @@ package com.increff.employee.pojo;
 
 import com.increff.employee.dao.AbstractDao;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Table(
+		uniqueConstraints = @UniqueConstraint(columnNames = {"brandName","brandCategory"})
+)
 public class BrandPojo {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)//auto increment id
 	private int id;
 	private String brandName;
 	private String brandCategory;
-
 
 	public int getId() {
 		return id;
@@ -39,5 +40,14 @@ public class BrandPojo {
 
 	public void setBrandCategory(String brandCategory) {
 		this.brandCategory = brandCategory;
+	}
+
+	@Override
+	public String toString() {
+		return "BrandPojo{" +
+				"id=" + id +
+				", brandName='" + brandName + '\'' +
+				", brandCategory='" + brandCategory + '\'' +
+				'}';
 	}
 }
