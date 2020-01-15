@@ -15,7 +15,7 @@ public class BrandDao extends AbstractDao {
     private static String delete_id = "delete from BrandPojo p where id=:id";
     private static String select_id = "select p from BrandPojo p where id=:id";
     private static String select_all = "select p from BrandPojo p";
-
+    private static String select_Allbrands="select distinct a.brandName from BrandPojo a";
     @PersistenceContext
     EntityManager em;
 
@@ -44,5 +44,10 @@ public class BrandDao extends AbstractDao {
     }
 
     public void update(BrandPojo p) {
+    }
+
+    public List<String> selectBrands() {
+        Query query=em.createQuery(select_Allbrands);
+        return query.getResultList();
     }
 }

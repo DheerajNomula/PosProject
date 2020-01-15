@@ -60,6 +60,12 @@ public class BrandApiController {
         BrandPojo p = convert(f);
         brandService.update(id, p);
     }
+    /*@ApiOperation(value = "Get all Brands")
+    @RequestMapping(path = "/api/brand/all", method = RequestMethod.GET)
+    public List<String> getBrands() throws ApiException {
+        //System.out.println(f);
+        return brandService.getBrands();
+    }*/
     private BrandData convert(BrandPojo brandPojo) {
         BrandData brandData=new BrandData();
         brandData.setBrandCategory(brandPojo.getBrandCategory());

@@ -28,6 +28,8 @@ public class ProductService {
         if (StringUtil.isEmpty(productPojo.getBarcode())) {
             throw new ApiException("Product Barcode cannot be empty");
         }
+        if(productPojo.getMrp()<0)
+            throw new ApiException("Mrp Should be positive");
         if(checkBrand(productPojo)){
             productDao.insert(productPojo);
         }
@@ -39,7 +41,7 @@ public class ProductService {
             if(brandPojo.getId()==p.getBrandId())
                 return true;
         }
-        throw new ApiException("Brand with id:"+p.getId()+" doestn't exist ");
+        throw new ApiException("Brand with id:"+p.getBrandId()+" doestn't exist ");
     }
     private void normalize(ProductPojo productPojo) {
         productPojo.setProductName(StringUtil.toLowerCase(productPojo.getProductName()));
