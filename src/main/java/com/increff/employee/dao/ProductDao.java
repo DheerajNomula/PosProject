@@ -15,7 +15,7 @@ public class ProductDao extends AbstractDao{
     private static String select_id = "select p from ProductPojo p where id=:id";
     private static String select_all = "select p from ProductPojo p";
     private static String selectIdByBarcode="select p from ProductPojo p where barcode=:barcode ";
-
+    private static String checkId="select count(p) from ProductPojo p where id=:id";
     @PersistenceContext
     EntityManager em;
 
@@ -43,5 +43,13 @@ public class ProductDao extends AbstractDao{
         query.setParameter("barcode",barcode);
         int id= getSingle(query).getId();
         return id;
+    }
+
+    public int countId(int id) {
+        Query query=em.createQuery(checkId);
+        query.setParameter("id",id);
+        Number number=(Number)query.getSingleResult();
+        int num=number.intValue();
+        return num;
     }
 }

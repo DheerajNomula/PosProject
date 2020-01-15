@@ -1,4 +1,5 @@
 package com.increff.employee.service;
+import com.google.protobuf.Api;
 import com.increff.employee.dao.InventoryDao;
 import com.increff.employee.pojo.InventoryPojo;
 import com.increff.employee.pojo.ProductPojo;
@@ -19,6 +20,7 @@ public class InventoryService {
     @Transactional(rollbackOn = ApiException.class)
     public void add(InventoryPojo p) throws ApiException {
         checkQuantity(p);
+        checkProductId(p.getId());
         dao.insert(p);
     }
 
@@ -35,16 +37,18 @@ public class InventoryService {
     }
     @Transactional(rollbackOn = ApiException.class)
     public void update(int id,InventoryPojo p) throws ApiException {
+        if(id!=p.getId())throw new ApiException("Id's should match in form and selected");
         checkQuantity(p);
+//        checkProductId(p.getId()); this is redundant as we are inserting the inevntory by checking this
         InventoryPojo newInventoryPojo=getCheck(id);
         newInventoryPojo.setQuantity(p.getQuantity());
-        //newInventoryPojo.setId(p.getId()); or id passed in url
         dao.update(newInventoryPojo);
     }
 
     @Transactional
     public InventoryPojo getCheck(int id) throws ApiException {
         InventoryPojo p=dao.select(id);
+        ///checkProductId(id);
         if(p==null){
             throw new ApiException("Inventory with given Id does not exist, id: "+id);
         }
@@ -57,5 +61,12 @@ public class InventoryService {
 
     public int getId(String barcode) {
         return productService.getIdByBarcode(barcode);
+    }
+
+    public void checkProductId(int id) throws ApiException {
+        if(productService.checkId(id)==0)
+            throw new ApiException("Product Id does not exists in product table");
+        if(dao.checkIdInInventory(id)==1)
+            throw new ApiException("Product Id already exists in inventory table");
     }
 }

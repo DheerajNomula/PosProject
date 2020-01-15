@@ -92,15 +92,15 @@ function displayProduct(data){
      $('#product-edit-form input[name=updateId]').val(data.id);
      $('#product-edit-form input[name=brandId]').val(dictionary[data.brandName][data.brandCategory]);
      //originalBrandIdEdit=data.brandId;
-      selectedProductBrandCategoryEdit=data.brandCategory;
-      selectedProductBrandNameEdit=data.brandName;
+      selectedProductsBrandCategory=data.brandCategory;
+      selectedProductsBrandName=data.brandName;
      displayBrandInEdit();
      $('#edit-product-modal').modal('toggle');//to open the pop up window
 }
 
 ///////////////////////////////////////////////////////////
-var selectedProductBrandCategoryEdit;
-var selectedProductBrandNameEdit;
+var selectedProductsBrandCategory;
+var selectedProductsBrandName;
 function displayBrandInEdit(){
     var baseUrl=getBaseUrl();
     var url=baseUrl+'/api/brand/';
@@ -117,10 +117,10 @@ function displayBrandInEdit(){
 function showAllbrandsInEdit(data){
     createDictionary(data);
     $('#updateBrandName').empty();
-    $("#updateBrandName").append('<option selected>'+selectedProductBrandNameEdit+'</option>');
-    showAllCategoriesInEdit(selectedProductBrandNameEdit,0)
+    $("#updateBrandName").append('<option selected>'+selectedProductsBrandName+'</option>');
+    showAllCategoriesInEdit(selectedProductsBrandName,0)
     for(var key in dictionary){
-        if(key==selectedProductBrandNameEdit)continue;
+        if(key==selectedProductsBrandName)continue;
         var row="<option>"+key+"</option>";
         $("#updateBrandName").append(row);
     }
@@ -131,12 +131,12 @@ function showAllCategoriesInEdit(brand,freshUpdate){
     var brandCategories=dictionary[brand];
     $('#updateBrandCategory').empty();
     if(freshUpdate==0)
-    $("#updateBrandCategory").append('<option selected >'+selectedProductBrandCategoryEdit+'</option>');
+    $("#updateBrandCategory").append('<option selected >'+selectedProductsBrandCategory+'</option>');
     else{
     $('#product-edit-form input[name=brandId]').val(NaN);
     $("#updateBrandCategory").append('<option value="" selected disabled hidden> Select one of the Category</option>');}
     for(var key in brandCategories){
-        if(key==selectedProductBrandCategoryEdit)continue;
+        if(key==selectedProductsBrandCategory)continue;
         var row="<option>"+key+"</option>";
         $("#updateBrandCategory").append(row);
     }
@@ -156,8 +156,6 @@ function displayBrand(){
     });
 }
 var dictionary;
-//var idDictionary;
-//var selectedBrand;
 function createDictionary(data){
     dictionary={};
     for(var i in data){
@@ -202,8 +200,6 @@ function updateProduct(event){
     var brandId=$('#product-edit-form input[name=brandId]').val();
     var url=getProductUrl()+'/'+id;
     var $form=$('#product-edit-form');
-     // check for brand id is null or not
-
     var json=toJson($form);
     console.log(json);
     if(Number.isNaN(Number(brandId))){

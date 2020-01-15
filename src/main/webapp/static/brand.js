@@ -87,14 +87,11 @@ function deleteBrand(id){
 
 function updateBrand(event){
     //$('#edit-employee-modal').modal('toggle'); see why?
-
     var id=$('#brand-edit-form input[name=updateId]').val();
-    //var brandName=$('#brand-edit-form input[name=brandName]').val();
     var url=getBrandUrl()+'/'+id;
 
     var $form=$('#brand-edit-form');
     var json=toJson($form);
-    //console.log(json);
     $.ajax({
         url:url,
         type:'PUT',
@@ -156,9 +153,6 @@ function uploadRows(){
 	updateUploadDialog();
 	//If everything processed then return
 	if(processCount==fileData.length){
-	    //$('#upload-brand-modal').modal("hide");
-	    //alert('File uploaded successfully');
-	    //getBrandList();
 		return;
 	}
 

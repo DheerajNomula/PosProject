@@ -86,4 +86,9 @@ public class ProductService {
     public int getIdByBarcode(String barcode) {
         return productDao.selectIdByBarcode(barcode);
     }
+
+    @Transactional
+    public int checkId(int id) {
+        return productDao.countId(id);
+    }
 }

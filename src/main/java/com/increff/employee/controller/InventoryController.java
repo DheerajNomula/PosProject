@@ -22,9 +22,7 @@ public class InventoryController {
     @ApiOperation(value = "Adds the inventory")
     @RequestMapping(path = "/api/inventory",method = RequestMethod.POST)
     public void add(@RequestBody InventoryForm form) throws ApiException {
-        System.out.println(form);
         InventoryPojo p=convert(form);
-        System.out.println(p);
         inventoryService.add(p);
     }
     @ApiOperation(value = "Gets the inventory")
@@ -55,13 +53,13 @@ public class InventoryController {
         ProductPojo productPojo=inventoryService.getProduct(p.getId());
         data.setProductName(productPojo.getProductName());
         data.setBarcode(productPojo.getBarcode());
+        data.setId(productPojo.getId());
         return data;
     }
     public InventoryPojo convert(InventoryForm form) {
-        System.out.println(form);
         InventoryPojo pojo=new InventoryPojo();
         pojo.setQuantity(form.getQuantity());
-        System.out.println(pojo);
+        pojo.setId(form.getId());
         return pojo;
     }
 }

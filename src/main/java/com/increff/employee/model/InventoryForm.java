@@ -1,7 +1,16 @@
 package com.increff.employee.model;
 
 public class InventoryForm {
+    private int id;
     private int quantity;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getQuantity() {
         return quantity;
@@ -11,5 +20,11 @@ public class InventoryForm {
         this.quantity = quantity;
     }
 
-
+    @Override
+    public String toString() {
+        return "InventoryForm{" +
+                "id=" + id +
+                ", quantity=" + quantity +
+                '}';
+    }
 }
