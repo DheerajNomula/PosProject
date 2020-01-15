@@ -53,7 +53,7 @@ public class EmployeeService {
 	public EmployeePojo getCheck(int id) throws ApiException {
 		EmployeePojo p = dao.select(id);
 		if (p == null) {
-			throw new ApiException("Employee with given ID does not exit, id: " + id);
+			throw new ApiException("Employee with given ID does not exist, id: " + id);
 		}
 		return p;
 	}

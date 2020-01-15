@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 public class ProductDao extends AbstractDao{
     private static String select_id = "select p from ProductPojo p where id=:id";
     private static String select_all = "select p from ProductPojo p";
+    private static String selectIdByBarcode="select p from ProductPojo p where barcode=:barcode ";
 
     @PersistenceContext
     EntityManager em;
@@ -34,5 +36,12 @@ public class ProductDao extends AbstractDao{
     }
 
     public void update(ProductPojo p) {
+    }
+
+    public int selectIdByBarcode(String barcode) {
+        TypedQuery<ProductPojo> query=getQuery(selectIdByBarcode,ProductPojo.class);
+        query.setParameter("barcode",barcode);
+        int id= getSingle(query).getId();
+        return id;
     }
 }

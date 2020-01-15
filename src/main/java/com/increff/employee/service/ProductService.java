@@ -76,4 +76,14 @@ public class ProductService {
         return productPojo;
     }
 
+    @Transactional(rollbackOn = ApiException.class)
+    public BrandPojo getBrand(int brandId) throws ApiException {
+        BrandPojo brandPojo=brandService.get(brandId);
+        return brandPojo;
+    }
+
+    @Transactional
+    public int getIdByBarcode(String barcode) {
+        return productDao.selectIdByBarcode(barcode);
+    }
 }
