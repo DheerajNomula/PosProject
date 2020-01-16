@@ -70,14 +70,13 @@ public class ProductService {
     }*/
 
     @Transactional
-    public int getIdByBarcode(String barcode) {
-        return productDao.selectIdByBarcode(barcode);
+    public ProductPojo getProductByBarcode(String barcode) {
+        return productDao.selectProductByBarcode(barcode);
     }
 
     @Transactional
     public int checkId(int id) {
         return productDao.countId(id);
     }
-
 
 }

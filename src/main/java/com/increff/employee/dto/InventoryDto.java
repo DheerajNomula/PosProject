@@ -85,7 +85,8 @@ public class InventoryDto {
     }
 
     public int getProductId(String barcode) {
-        return productService.getIdByBarcode(barcode);
+        ProductPojo productPojo=productService.getProductByBarcode(barcode);
+        return productPojo.getId();
     }
 
     public boolean checkProductId(InventoryPojo inventoryPojo) throws ApiException {

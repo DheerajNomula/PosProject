@@ -1,6 +1,5 @@
 package com.increff.employee.pojo;
 
-import com.increff.employee.dao.AbstractDao;
 
 import javax.persistence.*;
 

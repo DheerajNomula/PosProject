@@ -38,11 +38,10 @@ public class ProductDao extends AbstractDao{
     public void update(ProductPojo p) {
     }
 
-    public int selectIdByBarcode(String barcode) {
+    public ProductPojo selectProductByBarcode(String barcode) {
         TypedQuery<ProductPojo> query=getQuery(selectIdByBarcode,ProductPojo.class);
         query.setParameter("barcode",barcode);
-        int id= getSingle(query).getId();
-        return id;
+         return getSingle(query);
     }
 
     public int countId(int id) {
