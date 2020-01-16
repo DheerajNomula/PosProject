@@ -14,7 +14,6 @@ import org.springframework.stereotype.Repository;
 public class InventoryDao extends AbstractDao{
     private static String select_id="select p from InventoryPojo p where id=:id";
     private static String select_all="select p from InventoryPojo p";
-    private static String checkId="select count(p) from InventoryPojo p where id=:id";
 
     @PersistenceContext
     EntityManager em;
@@ -39,11 +38,11 @@ public class InventoryDao extends AbstractDao{
 
     }
 
-    public int checkIdInInventory(int id) {
+    /*public int checkIdInInventory(int id) {
         Query query=em.createQuery(checkId);
         query.setParameter("id",id);
         Number number=(Number)query.getSingleResult();
         int num=number.intValue();
         return num;
-    }
+    }*/
 }

@@ -45,7 +45,6 @@ function displayBrandList(brandsData){
         buttonHtml+='<button onclick="displayEditBrand('+brand.id+')">edit</button>';
         //console.log(buttonHtml);
         var tablerow='<tr>'
-                		+ '<td>' + brand.id + '</td>'
                 		+ '<td>' + brand.brandName + '</td>'
                 		+ '<td>'  + brand.brandCategory + '</td>'
                 		+ '<td>' + buttonHtml + '</td>'
@@ -53,6 +52,7 @@ function displayBrandList(brandsData){
                         $tbody.append(tablerow);
     }
 }
+//                		+ '<td>' + brand.id + '</td>'
 
 function displayEditBrand(id){
     var url=getBrandUrl()+'/'+id;

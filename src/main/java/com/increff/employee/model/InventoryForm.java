@@ -1,15 +1,15 @@
 package com.increff.employee.model;
 
 public class InventoryForm {
-    private int id;
+    private String barcode;
     private int quantity;
 
-    public int getId() {
-        return id;
+    public String getBarcode() {
+        return barcode;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
     }
 
     public int getQuantity() {
@@ -23,7 +23,7 @@ public class InventoryForm {
     @Override
     public String toString() {
         return "InventoryForm{" +
-                "id=" + id +
+                "barcode=" + barcode +
                 ", quantity=" + quantity +
                 '}';
     }

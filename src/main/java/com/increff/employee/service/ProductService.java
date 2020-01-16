@@ -1,8 +1,6 @@
 package com.increff.employee.service;
 
-import com.google.protobuf.Api;
 import com.increff.employee.dao.ProductDao;
-import com.increff.employee.pojo.BrandPojo;
 import com.increff.employee.pojo.ProductPojo;
 import com.increff.employee.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +15,7 @@ public class ProductService {
     @Autowired
     private ProductDao productDao;
 
-    @Autowired
-    BrandService brandService;
+
     @Transactional(rollbackOn = ApiException.class)
     public void add(ProductPojo productPojo) throws ApiException {
         normalize(productPojo);
@@ -30,19 +27,10 @@ public class ProductService {
         }
         if(productPojo.getMrp()<0)
             throw new ApiException("Mrp Should be positive");
-        if(checkBrand(productPojo)){
-            productDao.insert(productPojo);
-        }
+        //if(checkBrand(productPojo)){
+        productDao.insert(productPojo);
     }
-    private boolean checkBrand(ProductPojo p) throws ApiException {
 
-        List<BrandPojo> brandPojos=brandService.getAll();
-        for(BrandPojo brandPojo:brandPojos){
-            if(brandPojo.getId()==p.getBrandId())
-                return true;
-        }
-        throw new ApiException("Brand with id:"+p.getBrandId()+" doestn't exist ");
-    }
     private void normalize(ProductPojo productPojo) {
         productPojo.setProductName(StringUtil.toLowerCase(productPojo.getProductName()));
     }
@@ -58,7 +46,7 @@ public class ProductService {
     @Transactional(rollbackOn = ApiException.class)
     public void update(int id,ProductPojo productPojo) throws ApiException{
         normalize(productPojo);
-        checkBrand(productPojo);
+        //checkBrand(productPojo);
         ProductPojo newProductPojo=getCheck(id);
         newProductPojo.setProductName(productPojo.getProductName());
         newProductPojo.setBarcode(productPojo.getBarcode());
@@ -72,15 +60,14 @@ public class ProductService {
         if(productPojo==null){
             throw new ApiException("Product with given Id doesn't exist ,id ="+id);
         }
-
         return productPojo;
     }
 
-    @Transactional(rollbackOn = ApiException.class)
+    /*@Transactional(rollbackOn = ApiException.class)
     public BrandPojo getBrand(int brandId) throws ApiException {
         BrandPojo brandPojo=brandService.get(brandId);
         return brandPojo;
-    }
+    }*/
 
     @Transactional
     public int getIdByBarcode(String barcode) {
@@ -91,4 +78,6 @@ public class ProductService {
     public int checkId(int id) {
         return productDao.countId(id);
     }
+
+
 }

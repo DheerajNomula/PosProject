@@ -12,10 +12,11 @@ function refreshDataForm(){
 }
 function addProduct(event){
     var $form=$('#product-form');
+
     var brandId=$('#product-form input[name=brandId]').val();
     var json=toJson($form);
     var url=getProductUrl();
-    if(Number.isNaN(brandId)){
+    if(Number.isNaN(brandId) || brandId<=0){
         alert('Enter correct details !');
         return;
     }
@@ -143,6 +144,8 @@ function showAllCategoriesInEdit(brand,freshUpdate){
 }
 ///////////////////////////////////////////////////////////////////
 function displayBrand(){
+    $("product-form").trigger("reset");
+    $("product-edit-form").trigger("reset");
     var baseUrl=getBaseUrl();
     var url=baseUrl+'/api/brand/';
     $.ajax({
@@ -155,9 +158,8 @@ function displayBrand(){
         error:handleAjaxError
     });
 }
-var dictionary;
+var dictionary={};
 function createDictionary(data){
-    dictionary={};
     for(var i in data){
             var brand=data[i];
             if(!dictionary.hasOwnProperty(brand.brandName))
@@ -266,6 +268,14 @@ function uploadRows(){
 	}
 
 	var row = fileData[processCount];
+	//createDictionary();
+	console.log(dictionary,dictionary[row["brandName"]]);
+	console.log(row["brandName"],row["brandCategory"],dictionary[row["brandName"]][row["brandCategory"]]);
+	row["brandId"]=Number(dictionary[row["brandName"]][row["brandCategory"]]);
+	console.log(row,typeof(row),typeof(dictionary[row["brandName"]][row["brandCategory"]]));
+	delete row["brandName"];
+    delete row["brandCategory"];
+
 	processCount++;
 	var json = JSON.stringify(row);
 	var url = getProductUrl();

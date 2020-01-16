@@ -18,15 +18,18 @@ public class BrandService {
     @Transactional(rollbackOn = ApiException.class)
     public void add(BrandPojo brandPojo) throws ApiException {
         normalize(brandPojo);
-        if(StringUtil.isEmpty(brandPojo.getBrandName())){
-            throw new ApiException("name cannot be empty");
-        }
-        if(StringUtil.isEmpty(brandPojo.getBrandCategory())){
-            throw new ApiException("category cannot be empty");
-        }
+        checkIfEmpty(brandPojo.getBrandName(),brandPojo.getBrandCategory());
         brandDao.insert(brandPojo);
     }
 
+    private void checkIfEmpty(String brandName,String brandCategory) throws ApiException {
+        if(StringUtil.isEmpty(brandName)){
+            throw new ApiException("Brand name cannot be empty");
+        }
+        if(StringUtil.isEmpty(brandCategory)){
+            throw new ApiException("Brand category cannot be empty");
+        }
+    }
     private void normalize(BrandPojo brandPojo) throws ApiException {
         brandPojo.setBrandName(StringUtil.toLowerCase(brandPojo.getBrandName()));
         brandPojo.setBrandCategory(StringUtil.toLowerCase(brandPojo.getBrandCategory()));
@@ -59,6 +62,7 @@ public class BrandService {
     @Transactional(rollbackOn = ApiException.class)
     public void update(int id,BrandPojo brandPojo) throws ApiException {
         normalize(brandPojo);
+        checkIfEmpty(brandPojo.getBrandName(),brandPojo.getBrandCategory());
         BrandPojo newBrandDao=getCheck(id);;
         newBrandDao.setBrandName(brandPojo.getBrandName());
         newBrandDao.setBrandCategory(brandPojo.getBrandCategory());
