@@ -2,6 +2,24 @@ package com.increff.employee.model;
 
 public class OrderData extends OrderForm{
     private String productName;
+    private double mrp;
+    private int orderId;
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    public double getMrp() {
+        return mrp;
+    }
+
+    public void setMrp(double mrp) {
+        this.mrp = mrp;
+    }
 
     public String getProductName() {
         return productName;

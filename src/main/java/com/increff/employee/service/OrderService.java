@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -15,8 +16,8 @@ public class OrderService {
     private OrderDao orderDao;
 
     @Transactional
-    public void add(OrderPojo orderPojo){
-        orderDao.insert(orderPojo);
+    public OrderPojo add(OrderPojo orderPojo){
+        return orderDao.insert(orderPojo);
     }
 
     @Transactional
@@ -42,7 +43,7 @@ public class OrderService {
         return orderPojo;
     }
 
-    public int getLastOrder() {
-        return orderDao.getLastOrder();
+    public int getIdByDate(Date dateobj) {
+        return orderDao.getIdByDate(dateobj);
     }
 }

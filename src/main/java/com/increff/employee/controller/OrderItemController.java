@@ -1,8 +1,6 @@
 package com.increff.employee.controller;
 
 import com.increff.employee.dto.MakeOrderDto;
-import com.increff.employee.model.BrandData;
-import com.increff.employee.model.BrandForm;
 import com.increff.employee.model.OrderData;
 import com.increff.employee.model.OrderForm;
 import com.increff.employee.service.ApiException;
@@ -23,14 +21,16 @@ public class OrderItemController {
 
     @RequestMapping(path="/api/order",method = RequestMethod.POST)
     @ApiOperation(value = "To Add Order")
-    public void add(@RequestBody OrderForm orderForm) throws ApiException {
-        orderDto.add(orderForm);
+    public void add(@RequestBody List<OrderForm> orderForms) throws ApiException {
+        System.out.println(orderForms.size());
+        orderDto.add(orderForms);
     }
 
-    @RequestMapping(path="/api/order/{id}",method = RequestMethod.GET)
+    @RequestMapping(path="/api/order/{barcode}",method = RequestMethod.GET)
     @ApiOperation("Gets the order")
-    public OrderData get(@PathVariable int id) throws ApiException{
-        return orderDto.get(id);
+    public OrderData get(@PathVariable String barcode) throws ApiException{
+
+        return orderDto.get(barcode);
     }
 
     @ApiOperation(value = "Gets list of all orders")
@@ -38,9 +38,5 @@ public class OrderItemController {
     public List<OrderData> getAll() throws ApiException {
         return orderDto.getAll();
     }
-    @ApiOperation(value = "Updates an order")
-    @RequestMapping(path = "/api/order/{id}", method = RequestMethod.PUT)
-    public void update(@PathVariable int id, @RequestBody OrderForm f) throws ApiException {
-        orderDto.update(id, f);
-    }
+
 }

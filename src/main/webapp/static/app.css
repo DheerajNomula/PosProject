@@ -7,6 +7,17 @@ body {
 	margin-bottom: 60px; /* Margin bottom by footer height */
 }
 
+.divider{
+    width:2px;
+    height:auto;
+    display:inline-block;
+}
+.blank_row
+{
+    height: 10px !important; /* overwrites any other rules */
+    background-color: #FFFFFF;
+}
+
 .footer {
 	position: absolute;
 	bottom: 0;

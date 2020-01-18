@@ -63,4 +63,7 @@ public class OrderItemService {
         return orderItemPojo;
     }
 
+    public List<OrderItemPojo> getByOrderId(int id) {
+        return orderItemDao.getByOrderId(id);
+    }
 }

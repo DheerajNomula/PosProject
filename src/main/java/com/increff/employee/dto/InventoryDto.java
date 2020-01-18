@@ -92,13 +92,17 @@ public class InventoryDto {
     public boolean checkProductId(InventoryPojo inventoryPojo) throws ApiException {
         if(productService.checkId(inventoryPojo.getId())==0)
             throw new ApiException("Product Id does not exists in product table");
-        InventoryPojo existingPojo=inventoryService.get(inventoryPojo.getId());
-        if(existingPojo==null)
+        try {
+            InventoryPojo existingPojo=inventoryService.get(inventoryPojo.getId());
+            System.out.println("Product Id already exists in inventory table");
+            existingPojo.setQuantity(existingPojo.getQuantity()+inventoryPojo.getQuantity());
+            inventoryService.update(inventoryPojo.getId(),existingPojo);
+            return true;
+        }
+        catch (ApiException e) {
             return false;
-        System.out.println("Product Id already exists in inventory table");
-        existingPojo.setQuantity(existingPojo.getQuantity()+inventoryPojo.getQuantity());
-        inventoryService.update(inventoryPojo.getId(),existingPojo);
-        return true;
+        }
+
     }
 
 }

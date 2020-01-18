@@ -179,6 +179,12 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- For pdf generation-->
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>fop</artifactId>
+			<version>2.3</version>
+		</dependency>
 	</dependencies>
 
 	<build>
