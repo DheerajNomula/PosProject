@@ -39,4 +39,14 @@ public class InventoryData extends InventoryForm {
     public void setProductName(String productName) {
         this.productName = productName;
     }
+
+    @Override
+    public String toString() {
+        return "InventoryData{" +
+                "productName='" + productName + '\'' +
+                ", brandCategory='" + brandCategory + '\'' +
+                ", brandName='" + brandName + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }

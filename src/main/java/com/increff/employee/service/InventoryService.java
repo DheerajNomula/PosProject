@@ -3,6 +3,7 @@ import com.google.protobuf.Api;
 import com.increff.employee.dao.InventoryDao;
 import com.increff.employee.dto.InventoryDto;
 import com.increff.employee.dto.ProductDto;
+import com.increff.employee.model.InventoryData;
 import com.increff.employee.pojo.BrandPojo;
 import com.increff.employee.pojo.InventoryPojo;
 import com.increff.employee.pojo.ProductPojo;
@@ -54,4 +55,5 @@ public class InventoryService {
         }
         return p;
     }
+
 }

@@ -86,4 +86,8 @@ public class BrandService {
     public List<String> getBrands() {
         return brandDao.selectBrands();
     }
+
+    public int getIdByNameAndCategory(String brandName, String brandCategory) {
+        return brandDao.getIdByNameAndCategory(brandName,brandCategory);
+    }
 }

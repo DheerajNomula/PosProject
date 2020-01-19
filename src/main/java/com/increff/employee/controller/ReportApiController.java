@@ -1,13 +1,11 @@
 package com.increff.employee.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.increff.employee.dto.ReportsDto;
-import com.increff.employee.model.SalesForm;
+import com.increff.employee.model.*;
 import com.increff.employee.service.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,44 +23,22 @@ public class ReportApiController {
     private ReportsDto service;
 
     @ApiOperation(value = "Generates the sales Report")
-    @RequestMapping(path = "/api/reports/sales", method = RequestMethod.GET)
-    public List<SalesData> get(@RequestBody SalesForm salesForm) throws ApiException {
-        SalesData p = service.get(salesForm);
-        return convert(p);
+    @RequestMapping(path = "/api/reports/sales", method = RequestMethod.POST)
+    public List<SalesData> generateSales(@RequestBody SalesForm salesForm){
+        //System.out.println(salesForm);
+        return service.getSales(salesForm);
     }
 
-    @ApiOperation(value = "Gets list of all employees")
-    @RequestMapping(path = "/api/employee", method = RequestMethod.GET)
-    public List<EmployeeData> getAll() {
-        List<EmployeePojo> list = service.getAll();
-        List<EmployeeData> list2 = new ArrayList<EmployeeData>();
-        for (EmployeePojo p : list) {
-            list2.add(convert(p));
-        }
-        return list2;
+    @ApiOperation(value = "Generates the inventory Report")
+    @RequestMapping(path = "/api/reports/inventory", method = RequestMethod.GET)
+    public List<InventoryData> generateInventory() throws ApiException {
+        return service.getInventory();
     }
 
-    @ApiOperation(value = "Updates an employee")
-    @RequestMapping(path = "/api/employee/{id}", method = RequestMethod.PUT)
-    public void update(@PathVariable int id, @RequestBody EmployeeForm f) throws ApiException {
-        EmployeePojo p = convert(f);
-        service.update(id, p);
-    }
-
-
-    private static EmployeeData convert(EmployeePojo p) {
-        EmployeeData d = new EmployeeData();
-        d.setAge(p.getAge());
-        d.setName(p.getName());
-        d.setId(p.getId());
-        return d;
-    }
-
-    private static EmployeePojo convert(EmployeeForm f) {
-        EmployeePojo p = new EmployeePojo();
-        p.setAge(f.getAge());
-        p.setName(f.getName());
-        return p;
+    @ApiOperation(value = "Generates the brand Report")
+    @RequestMapping(path = "/api/reports/brand", method = RequestMethod.GET)
+    public List<BrandData> generateBrand() {
+        return service.getBrand();
     }
 
 }

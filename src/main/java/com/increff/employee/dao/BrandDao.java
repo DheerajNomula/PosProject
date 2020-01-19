@@ -16,6 +16,7 @@ public class BrandDao extends AbstractDao {
     private static String select_id = "select p from BrandPojo p where id=:id";
     private static String select_all = "select p from BrandPojo p";
     private static String select_Allbrands="select distinct a.brandName from BrandPojo a";
+    private static String idByNameAndCateogry="select p.id from BrandPojo p where brandName=:brandName and brandCategory=:brandCategory";
     @PersistenceContext
     EntityManager em;
 
@@ -49,5 +50,16 @@ public class BrandDao extends AbstractDao {
     public List<String> selectBrands() {
         Query query=em.createQuery(select_Allbrands);
         return query.getResultList();
+    }
+
+    public int getIdByNameAndCategory(String brandName, String brandCategory) {
+        System.out.println("In brand dao");
+        Query query=em.createQuery(idByNameAndCateogry);
+        query.setParameter("brandName",brandName);
+        query.setParameter("brandCategory",brandCategory);
+        Number number=(Number)query.getSingleResult();
+        int num=number.intValue();
+        System.out.println(num);
+        return num;
     }
 }

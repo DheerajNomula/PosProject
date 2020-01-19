@@ -8,13 +8,13 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
+import com.increff.employee.model.InventoryData;
 import com.increff.employee.pojo.InventoryPojo;
 import org.springframework.stereotype.Repository;
 @Repository
 public class InventoryDao extends AbstractDao{
     private static String select_id="select p from InventoryPojo p where id=:id";
     private static String select_all="select p from InventoryPojo p";
-
     @PersistenceContext
     EntityManager em;
 
@@ -37,6 +37,7 @@ public class InventoryDao extends AbstractDao{
     public void update(InventoryPojo p){
 
     }
+
 
     /*public int checkIdInInventory(int id) {
         Query query=em.createQuery(checkId);

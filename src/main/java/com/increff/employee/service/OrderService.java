@@ -46,4 +46,8 @@ public class OrderService {
     public int getIdByDate(Date dateobj) {
         return orderDao.getIdByDate(dateobj);
     }
+
+    public List<Integer> getOrdersBetween(Date startDate, Date endDate) {
+        return orderDao.getOrdersBetween(startDate,endDate);
+    }
 }

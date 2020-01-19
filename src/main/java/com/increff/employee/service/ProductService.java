@@ -79,4 +79,7 @@ public class ProductService {
         return productDao.countId(id);
     }
 
+    public List<Integer> getIdsByBrand(int brandId) {
+        return productDao.getIdsByBrand(brandId);
+    }
 }

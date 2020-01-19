@@ -16,6 +16,7 @@ public class ProductDao extends AbstractDao{
     private static String select_all = "select p from ProductPojo p";
     private static String selectIdByBarcode="select p from ProductPojo p where barcode=:barcode ";
     private static String checkId="select count(p) from ProductPojo p where id=:id";
+    private static String selectIdByBrand="select p.id from ProductPojo where brandId:brandId";
     @PersistenceContext
     EntityManager em;
 
@@ -50,5 +51,15 @@ public class ProductDao extends AbstractDao{
         Number number=(Number)query.getSingleResult();
         int num=number.intValue();
         return num;
+    }
+
+    public List<Integer> getIdsByBrand(int brandId) {
+        TypedQuery<Integer> query=getQuery(selectIdByBrand,Integer.class);
+        query.setParameter("brandId",brandId);
+        List<Integer> list= query.getResultList();
+        for(Integer integer:list){
+            System.out.println(integer.intValue());
+        }
+        return list;
     }
 }
