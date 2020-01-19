@@ -7,10 +7,23 @@ import com.increff.employee.pojo.OrderItemPojo;
 import com.increff.employee.pojo.OrderPojo;
 import com.increff.employee.pojo.ProductPojo;
 import com.increff.employee.service.*;
+import com.increff.employee.util.Orders;
+import org.apache.fop.apps.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.PropertyException;
+import javax.xml.transform.*;
+import javax.xml.transform.sax.SAXResult;
+import javax.xml.transform.stream.StreamSource;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,9 +60,84 @@ public class MakeOrderDto {
 
         for (OrderItemPojo orderItemPojo:orderItemPojos) {
             orderItemPojo.setOrderId(orderId);
+
             orderItemService.add(orderItemPojo); // first check the conditions and then make the order
         }
+
+        generateXML(orderForms,orderPojo);
     }
+    private void generateXML(List<OrderForm> orderForms,OrderPojo orderPojo) throws ApiException {
+        List<OrderData> orderDatas=new ArrayList<OrderData>();
+        double totalAmount=0;
+        for(OrderForm orderForm:orderForms){
+            OrderData orderData=convert(orderForm.getBarcode());
+            orderData.setOrderId(orderPojo.getId());
+            orderData.setQuantity(orderForm.getQuantity());
+            orderDatas.add(orderData);
+            totalAmount+=orderData.getMrp()*orderData.getQuantity();
+        }
+        Orders orders=new Orders(orderDatas);
+        orders.setOrderId(orderPojo.getId());
+        orders.setTotalAmount(totalAmount);//src/main/resources/com/increff/employee
+        File file = new File("src/main/resources/com/increff/employee/orders.xml");
+        JAXBContext jaxbContext = null;
+        try {
+            jaxbContext = JAXBContext.newInstance(Orders.class);
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            jaxbMarshaller.marshal(orders, file);
+        } catch (Exception e) {
+            throw new ApiException("Error while converting into pdf "+e);
+        }
+        //add total to xml
+        generatePdf();
+    }
+
+    private void generatePdf() throws ApiException {
+        try {
+            File xmlfile = new File("src/main/resources/com/increff/employee/orders.xml");
+            File xsltfile = new File("src/main/resources/com/increff/employee/orderStyle.xsl");
+            File pdfDir = new File("src/main/resources/com/increff/employee/pdfs");
+            pdfDir.mkdirs();
+            File pdfFile = new File(pdfDir, "order.pdf");
+            System.out.println(pdfFile.getAbsolutePath());
+            // configure fopFactory as desired
+            final FopFactory fopFactory = FopFactory.newInstance(new File(".").toURI());
+
+            FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
+            // configure foUserAgent as desired
+
+            // Setup output
+            OutputStream out = new FileOutputStream(pdfFile);
+            out = new java.io.BufferedOutputStream(out);
+            try {
+                // Construct fop with desired output format
+                Fop fop;
+
+                fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, out);
+
+                // Setup XSLT
+                TransformerFactory factory = TransformerFactory.newInstance();
+                Transformer transformer = factory.newTransformer(new StreamSource(xsltfile));
+
+                // Setup input for XSLT transformation
+                Source src = new StreamSource(xmlfile);
+
+                // Resulting SAX events (the generated FO) must be piped through to FOP
+                Result res = new SAXResult(fop.getDefaultHandler());
+
+                // Start XSLT transformation and FOP processing
+                transformer.transform(src, res);
+            } catch (FOPException | TransformerException e) {
+                throw new ApiException("Error while converting into pdf "+e);
+            } finally {
+                out.close();
+            }
+        }catch(IOException | ApiException exp){
+            throw new ApiException("Error while converting into pdf"+exp);
+        }
+    }
+
     private List<OrderItemPojo> convertToOrderitems(List<OrderForm> orderForms) throws ApiException {
         List<OrderItemPojo> orderItemPojos=new ArrayList<OrderItemPojo>();
         for(OrderForm orderForm:orderForms){
