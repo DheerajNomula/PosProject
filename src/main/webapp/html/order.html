@@ -75,8 +75,10 @@
     <button type="button" class="btn btn-success" style="margin-left:500px;" id="add-order">Add Order</button>&nbsp;
     <!--<button type="button" class="btn btn-primary" id="createInvoice">Create Customer Invoice</button>-->
     <embed src="/invoice.pdf" width="500" height="375" type='application/pdf'>
-    <a href="/employee/api/order/invoice">Download Invoice</a>
+    <a th:href="@{/api/order/invoice}">Download Invoice</a>
 
+
+   <!-- <a th:href="@{/api/order/invoice}" target="_blank" class=""btn btn-primary>Download Invoice</a>-->
 
     <!-- Order Edit Modal -->
     <div class="modal" tabindex="-1" role="dialog" id="edit-order-modal">

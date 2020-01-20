@@ -6,6 +6,16 @@ public class SalesData {
     private int quantity;
     private double revenue;
 
+    @Override
+    public String toString() {
+        return "SalesData{" +
+                "brandName='" + brandName + '\'' +
+                ", brandCategory='" + brandCategory + '\'' +
+                ", quantity=" + quantity +
+                ", revenue=" + revenue +
+                '}';
+    }
+
     public String getBrandCategory() {
         return brandCategory;
     }

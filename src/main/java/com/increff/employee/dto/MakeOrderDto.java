@@ -60,7 +60,7 @@ public class MakeOrderDto {
 
         for (OrderItemPojo orderItemPojo:orderItemPojos) {
             orderItemPojo.setOrderId(orderId);
-
+            //orderItemPojo.setSellingPrice();
             orderItemService.add(orderItemPojo); // first check the conditions and then make the order
         }
 
@@ -155,7 +155,7 @@ public class MakeOrderDto {
         if(productPojo==null)
             throw new ApiException("Product doesn't exist ,barcode :"+orderForm.getBarcode());
         orderItemPojo.setProductId(productPojo.getId());
-        orderItemPojo.setSellingPrice(productPojo.getMrp());
+        orderItemPojo.setSellingPrice(productPojo.getMrp()*orderForm.getQuantity()); // changed to mrp*qty
 
         InventoryPojo inventoryPojo=inventoryService.get(productPojo.getId());
         if(inventoryPojo.getQuantity()<orderForm.getQuantity())

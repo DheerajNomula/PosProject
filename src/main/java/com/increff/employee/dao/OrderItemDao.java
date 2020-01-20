@@ -17,9 +17,11 @@ public class OrderItemDao extends AbstractDao{
     private static String select_id="select p from OrderItemPojo p where id=:id";
     private static String select_all="select p from OrderItemPojo p";
     private static String selectByOrderId="select p from OrderItemPojo p where p.orderId=:id";
-    private static String example="select o.productId,sum(o.quantity),sum(o.sellingPrice) from OrderItemPojo o  where o.orderId in " +
+    /*private static String example="select o.productId,sum(o.quantity),sum(o.sellingPrice) from OrderItemPojo o  where o.orderId in " +
             "(select p.id from OrderPojo p where p.date between :startDate and :endDate) group by o.productId having o.productId in " +
-            "(select n.id from ProductPojo n where n.brandId in (select m.id from BrandPojo m where m.brandName=:brandName and m.brandCategory=:brandCategory))";
+            "(select n.id from ProductPojo n where n.brandId in (select m.id from BrandPojo m where m.brandName=:brandName and m.brandCategory=:brandCategory))";*/
+    private static String example="select o.productId,sum(o.quantity),sum(o.sellingPrice) from OrderItemPojo o  where o.orderId in " +
+            "(select p.id from OrderPojo p where p.date between :startDate and :endDate) group by o.productId";
     @PersistenceContext
     EntityManager em;
 
@@ -52,8 +54,8 @@ public class OrderItemDao extends AbstractDao{
         Query query=em.createNativeQuery(example);
         query.setParameter("startDate",salesForm.getStartDate());
         query.setParameter("endDate",salesForm.getEndDate());
-        query.setParameter("brandName",salesForm.getBrandName());
-        query.setParameter("brandCategory",salesForm.getBrandCategory());
+        /*query.setParameter("brandName",salesForm.getBrandName());
+        query.setParameter("brandCategory",salesForm.getBrandCategory());*/
         List<Object[]> list=query.getResultList();
         System.out.println(list.size());
         for (Object[] obj : list) {

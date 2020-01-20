@@ -29,25 +29,44 @@ public class ReportsDto {
     InventoryService inventoryService;
     @Autowired
     BrandService brandService;
-    @Autowired
-    BrandDto brandDto;
+
     @Autowired
     ProductService productService;
 
-    public List<SalesData> getSales(SalesForm salesForm){
+    public List<SalesData> getSales(SalesForm salesForm) throws ApiException {
 
         System.out.println(salesForm);
         List<Object[]> listAns=orderItemService.salesReport(salesForm);
         List<SalesData> salesDataList=new ArrayList<SalesData>();
+        //Map with key category and value as SalesData
+        Map<String,SalesData> map=new HashMap<String,SalesData>();
         for(Object[] obj:listAns){ // 0 - product Id , 1- total quantity , 2- total selling price
             SalesData salesData=new SalesData();
-            System.out.println(obj[0]+" "+obj[1]+" "+obj[2]);
-            salesData.setBrandCategory(salesForm.getBrandCategory());
-            Number qty=(Number) obj[1];
-            salesData.setQuantity(qty.intValue());
-            salesData.setRevenue((Double) obj[2]);
-            salesDataList.add(salesData);
-            System.out.println(salesData);
+            //System.out.println(obj[0]+" "+obj[1]+" "+obj[2]);
+            ProductPojo productPojo=productService.get((Integer) obj[0]);
+            BrandPojo brandPojo=brandService.get(productPojo.getBrandId());
+            Number number=(Number)obj[1];
+            if(salesForm.getBrandCategory().isEmpty()||brandPojo.getBrandCategory().equalsIgnoreCase(salesForm.getBrandCategory())){
+                if(salesForm.getBrandName().isEmpty() || salesForm.getBrandName().equalsIgnoreCase(brandPojo.getBrandName())){
+                    if(map.containsKey(brandPojo.getBrandCategory()) == true){
+                        SalesData temp=map.get(brandPojo.getBrandCategory());
+                        temp.setQuantity(temp.getQuantity()+number.intValue());
+                        temp.setRevenue(temp.getRevenue()+(Double) obj[2]);
+                        map.put(brandPojo.getBrandCategory(),temp);
+                    }
+                    else {
+                        SalesData newData=new SalesData();
+                        newData.setQuantity(number.intValue());
+                        //newData.setBrandName(brandPojo.getBrandName());
+                        newData.setBrandCategory(brandPojo.getBrandCategory());
+                        newData.setRevenue((Double)obj[2]);
+                        map.put(newData.getBrandCategory(),newData);
+                    }
+                }
+            }
+        }
+        for(Map.Entry m:map.entrySet()){
+            salesDataList.add((SalesData) m.getValue());
         }
         return salesDataList;
     }
@@ -80,7 +99,8 @@ public class ReportsDto {
         return inventoryDataList;
     }
 
-    public List<BrandData> getBrand() {
-        return brandDto.getAll();
+    public List<BrandPojo> getBrand() {
+        return brandService .getAll();
     }
+
 }

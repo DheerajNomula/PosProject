@@ -125,8 +125,8 @@ function allowAllfields(){
 function addOrderItem(){
 
     var barcodeLength=$.trim($('#order-form input[name=barcode]').val()).length; // check for null
-    var quantityLength=$.trim($('#order-form input[name=barcode]').val()).length;
-    if(barcodeLength ==0 || quantityLength==0)
+    var quantityLength=$.trim($('#order-form input[name=quantity]').val()).length;
+    if(barcodeLength ==0 || quantityLength==0 || $('#order-form input[name=quantity]').val()==0)
     {
         alert('Please enter the values correctly');
         return false;
@@ -262,25 +262,13 @@ function displayAllOrders(ordersData){
         }
         printTotalRow(totalAmount);
 }
-/*function createInvoice(){
-    var url=getOrderUrl()+'/invoice';
-    console.log(url);
-    $.ajax({
-           url:url,
-           type:'GET',
-           success:function(response){
-                console.log(response);
-           },
-           error:handleAjaxError
-        });
-}*/
+
 function init(){
     $('#add-order-item').click(addOrderItem);
     $('#update-orderItem').click(updateOrderItem);
     $('#create-new-order').click(clearAll);
     $('#add-order').click(completeOrder);
     $('#show-all-orders').click(showAllOrders);
-    //$('#customerInvoice').click(createInvoice)
 }
 $(document).ready(init);
-//$(document).ready(getInventoryData);
+//$(document).ready(getInventoryDa  ta);

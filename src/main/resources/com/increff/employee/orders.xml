@@ -2,25 +2,18 @@
 <orders>
     <order>
         <barcode>a2erds3</barcode>
-        <quantity>2</quantity>
+        <quantity>3</quantity>
         <mrp>25000.0</mrp>
-        <orderId>22</orderId>
+        <orderId>36</orderId>
         <productName>yoga</productName>
     </order>
     <order>
-        <barcode>rewr32f</barcode>
-        <quantity>5</quantity>
-        <mrp>3000.0</mrp>
-        <orderId>22</orderId>
-        <productName>school bags</productName>
-    </order>
-    <order>
         <barcode>13dasew</barcode>
-        <quantity>3</quantity>
+        <quantity>4</quantity>
         <mrp>149.0</mrp>
-        <orderId>22</orderId>
+        <orderId>36</orderId>
         <productName>anti dandruff</productName>
     </order>
-    <orderId>22</orderId>
-    <totalAmount>65447.0</totalAmount>
+    <orderId>36</orderId>
+    <totalAmount>75596.0</totalAmount>
 </orders>

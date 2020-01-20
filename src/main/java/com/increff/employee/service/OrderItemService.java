@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -70,7 +71,16 @@ public class OrderItemService {
     }
 
 
-    public List<Object[]> salesReport(SalesForm salesForm) {
+    public List<Object[]> salesReport(SalesForm salesForm) throws ApiException {
+        if(salesForm.getEndDate()==null)
+            salesForm.setEndDate(new Date());
+        if(salesForm.getStartDate()==null)
+            salesForm.setStartDate(new Date(1));
+        if(salesForm.getEndDate().compareTo(salesForm.getStartDate())<0){
+            throw new ApiException("Enter valid start and end dates dates")
+                    ;
+        }
         return orderItemDao.salesReport(salesForm);
+
     }
 }

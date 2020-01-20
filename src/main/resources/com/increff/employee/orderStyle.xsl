@@ -15,7 +15,7 @@
             </fo:layout-master-set>
             <fo:page-sequence master-reference="simpleA4">
                 <fo:flow flow-name="xsl-region-body">
-                    <fo:block font-size="16pt" font-family="Helvetica" color="blue" font-weight="bold" space-after="5mm">
+                    <fo:block font-size="32pt" text-align="center" font-family="Helvetica" color="blue" font-weight="bold" space-after="5mm">
                        Order Id: <xsl:value-of select="orderId"/>
                     </fo:block>
                     <fo:block font-size="10pt">
@@ -25,21 +25,21 @@
                             <fo:table-column column-width="5cm"/>
                             <fo:table-column column-width="5cm"/>
                             <fo:table-column column-width="5cm"/>
-                            <fo:table-header>
-                                <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                                    <fo:block font-weight="bold">Barcode</fo:block>
+                            <fo:table-header font-weight="bold">
+                                <fo:table-cell border="1pt solid black" xsl:use-attribute-sets="tableBorder">
+                                    <fo:block font-size="15pt" font-weight="bold">Barcode</fo:block>
                                 </fo:table-cell>
-                                <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                                    <fo:block font-weight="bold">Product Name</fo:block>
+                                <fo:table-cell border="1pt solid black" xsl:use-attribute-sets="tableBorder">
+                                    <fo:block font-size="15pt" font-weight="bold">Product Name</fo:block>
                                 </fo:table-cell>
-                                <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                                    <fo:block font-weight="bold">Mrp</fo:block>
+                                <fo:table-cell border="1pt solid black" xsl:use-attribute-sets="tableBorder">
+                                    <fo:block font-size="15pt" font-weight="bold">Mrp</fo:block>
                                 </fo:table-cell>
-                                <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                                    <fo:block font-weight="bold">Quantity</fo:block>
+                                <fo:table-cell border="1pt solid black" xsl:use-attribute-sets="tableBorder">
+                                    <fo:block font-size="15pt" font-weight="bold">Quantity</fo:block>
                                 </fo:table-cell>
-                                <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                                    <fo:block font-weight="bold">Total Price</fo:block>
+                                <fo:table-cell border="1pt solid black" xsl:use-attribute-sets="tableBorder">
+                                    <fo:block font-size="15pt" font-weight="bold">Total Price</fo:block>
                                 </fo:table-cell>
                             </fo:table-header>
                             <fo:table-body>
@@ -47,7 +47,7 @@
                             </fo:table-body>
                         </fo:table>
                     </fo:block>
-                    <fo:block font-size="10pt" font-family="Helvetica" color="black" font-weight="bold" space-after="5mm">
+                    <fo:block font-size="16pt" font-family="Helvetica" color="black" font-weight="bold" space-after="5mm">
                         Total Amount : Rs. <xsl:value-of select="totalAmount"/> /-
                     </fo:block>
                 </fo:flow>
@@ -56,29 +56,29 @@
     </xsl:template>
     <xsl:template match="order">
         <fo:table-row>
-            <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                <fo:block>
+            <fo:table-cell  border="1pt solid black" xsl:use-attribute-sets="tableBorder">
+                <fo:block font-size="15pt">
                     <xsl:value-of select="barcode"/>
                 </fo:block>
             </fo:table-cell>
 
-            <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                <fo:block>
+            <fo:table-cell  border="1pt solid black" xsl:use-attribute-sets="tableBorder">
+                <fo:block font-size="15pt">
                     <xsl:value-of select="productName"/>
                 </fo:block>
             </fo:table-cell>
-            <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                <fo:block>
+            <fo:table-cell  border="1pt solid black" xsl:use-attribute-sets="tableBorder">
+                <fo:block font-size="15pt">
                     <xsl:value-of select="mrp"/>
                 </fo:block>
             </fo:table-cell>
-                <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                    <fo:block>
+                <fo:table-cell  border="1pt solid black" xsl:use-attribute-sets="tableBorder">
+                    <fo:block font-size="15pt">
                         <xsl:value-of select="quantity"/>
                     </fo:block>
                 </fo:table-cell>
-            <fo:table-cell xsl:use-attribute-sets="tableBorder">
-                <fo:block>
+            <fo:table-cell  border="1pt solid black" xsl:use-attribute-sets="tableBorder">
+                <fo:block font-size="15pt">
                     <xsl:value-of select="quantity*mrp"/>
                 </fo:block>
             </fo:table-cell>
