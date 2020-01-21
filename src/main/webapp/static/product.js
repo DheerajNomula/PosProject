@@ -84,8 +84,6 @@ function displayEditProduct(id){
     });
 }
 function displayProduct(data){
-    console.log('in edit(id) sub fun');
-    console.log(data);
 
      $("#product-edit-form input[name=productName]").val(data.productName);
      $("#product-edit-form input[name=barcode]").val(data.barcode);
@@ -203,7 +201,7 @@ function updateProduct(event){
     var url=getProductUrl()+'/'+id;
     var $form=$('#product-edit-form');
     var json=toJson($form);
-    console.log(json);
+//    console.log(json);
     if(Number.isNaN(Number(brandId))){
         alert('Enter correct brand details');
         return false;
@@ -269,10 +267,7 @@ function uploadRows(){
 
 	var row = fileData[processCount];
 	//createDictionary();
-	console.log(dictionary,dictionary[row["brandName"]]);
-	console.log(row["brandName"],row["brandCategory"],dictionary[row["brandName"]][row["brandCategory"]]);
 	row["brandId"]=Number(dictionary[row["brandName"]][row["brandCategory"]]);
-	console.log(row,typeof(row),typeof(dictionary[row["brandName"]][row["brandCategory"]]));
 	delete row["brandName"];
     delete row["brandCategory"];
 

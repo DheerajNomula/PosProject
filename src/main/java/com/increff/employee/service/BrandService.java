@@ -22,35 +22,21 @@ public class BrandService {
         brandDao.insert(brandPojo);
     }
 
-    private void checkIfEmpty(String brandName,String brandCategory) throws ApiException {
+    protected void checkIfEmpty(String brandName,String brandCategory) throws ApiException {
         if(StringUtil.isEmpty(brandName)){
             throw new ApiException("Brand name cannot be empty");
         }
         if(StringUtil.isEmpty(brandCategory)){
             throw new ApiException("Brand category cannot be empty");
         }
+        int exists=brandDao.checkBrandAndCategory(brandName,brandCategory);
+        if(exists!=0)
+            throw new ApiException("Brand name and category already exists");
     }
-    private void normalize(BrandPojo brandPojo) throws ApiException {
+    protected void normalize(BrandPojo brandPojo)  {
         brandPojo.setBrandName(StringUtil.toLowerCase(brandPojo.getBrandName()));
         brandPojo.setBrandCategory(StringUtil.toLowerCase(brandPojo.getBrandCategory()));
         //checkForDuplicate(brandPojo);no need added unique constraint
-    }
-
-    /*@Transactional(rollbackOn = ApiException.class)
-    private void checkForDuplicate(BrandPojo brandPojo) throws ApiException {
-        String newBrandPojoCategory=brandPojo.getBrandCategory();
-        String newBrandPojoName=brandPojo.getBrandName();
-        List<BrandPojo> listOfBrandPojos=getAll();
-        for(BrandPojo brandPojoInDB:listOfBrandPojos){
-            if((newBrandPojoCategory.equalsIgnoreCase(brandPojoInDB.getBrandCategory()) == true) && (newBrandPojoName.equalsIgnoreCase(brandPojoInDB.getBrandName()) == true)){
-                throw new ApiException("Brand with name : "+newBrandPojoName+" and category : "+newBrandPojoCategory+"already exists !!");
-            }
-        }
-    }*/
-
-    @Transactional(rollbackOn = ApiException.class)
-    public void delete(int id){
-        brandDao.delete(id);
     }
 
     @Transactional(rollbackOn = ApiException.class)
@@ -66,6 +52,10 @@ public class BrandService {
     public void update(int id,BrandPojo brandPojo) throws ApiException {
         normalize(brandPojo);
         checkIfEmpty(brandPojo.getBrandName(),brandPojo.getBrandCategory());
+        int checkDuplicate=brandDao.checkBrandAndCategory(brandPojo.getBrandName(),brandPojo.getBrandCategory());
+        if(checkDuplicate!=0)
+            throw new ApiException("Brand Name and Category already Exists");
+
         BrandPojo newBrandDao=getCheck(id);;
         newBrandDao.setBrandName(brandPojo.getBrandName());
         newBrandDao.setBrandCategory(brandPojo.getBrandCategory());
@@ -73,7 +63,7 @@ public class BrandService {
     }
 
     @Transactional(rollbackOn = ApiException.class)
-    private BrandPojo getCheck(int id) throws ApiException {
+    protected BrandPojo getCheck(int id) throws ApiException {
         BrandPojo brandPojo= brandDao.select(id);
         if(brandPojo==null){
             throw new ApiException("Brand with given Id doesn't exist ,id ="+id);
@@ -82,12 +72,4 @@ public class BrandService {
         return brandPojo;
     }
 
-    @Transactional
-    public List<String> getBrands() {
-        return brandDao.selectBrands();
-    }
-
-    public int getIdByNameAndCategory(String brandName, String brandCategory) {
-        return brandDao.getIdByNameAndCategory(brandName,brandCategory);
-    }
 }

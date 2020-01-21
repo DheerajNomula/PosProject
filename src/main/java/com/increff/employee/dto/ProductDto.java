@@ -20,7 +20,7 @@ public class ProductDto {
     private ProductService productService;
 
     @Autowired
-    BrandService brandService;
+    private BrandService brandService;
 
     public void add( ProductForm form) throws ApiException {
         ProductPojo productPojo = convert(form);

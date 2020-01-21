@@ -41,8 +41,7 @@ function displayBrandList(brandsData){
     $tbody.empty();
     for(var i in brandsData){
         var brand=brandsData[i];
-        var buttonHtml='<button onclick="deleteBrand('+brand.id+')">delete</button>';
-        buttonHtml+='<button onclick="displayEditBrand('+brand.id+')">edit</button>';
+        var buttonHtml='<button onclick="displayEditBrand('+brand.id+')">edit</button>';
         //console.log(buttonHtml);
         var tablerow='<tr>'
                 		+ '<td>' + brand.brandName + '</td>'
@@ -51,6 +50,7 @@ function displayBrandList(brandsData){
                 		+ '</tr>';
                         $tbody.append(tablerow);
     }
+    $("#brand-form").trigger('reset');
 }
 //                		+ '<td>' + brand.id + '</td>'
 
@@ -73,17 +73,6 @@ function displayBrand(data){
 	$('#edit-brand-modal').modal('toggle');
 }
 
-function deleteBrand(id){
-    var url=getBrandUrl()+'/'+id;
-    $.ajax({
-        url:url,
-        type:'DELETE',
-        success:function(data){
-            getBrandList();
-        },
-        error:handleAjaxError
-    });
-}
 
 function updateBrand(event){
     //$('#edit-employee-modal').modal('toggle'); see why?

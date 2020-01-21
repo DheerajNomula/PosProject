@@ -3,6 +3,7 @@ package com.increff.employee.service;
 import com.increff.employee.dao.ProductDao;
 import com.increff.employee.pojo.ProductPojo;
 import com.increff.employee.util.StringUtil;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,14 +26,18 @@ public class ProductService {
         if (StringUtil.isEmpty(productPojo.getBarcode())) {
             throw new ApiException("Product Barcode cannot be empty");
         }
-        if(productPojo.getMrp()<0)
-            throw new ApiException("Mrp Should be positive");
+        if(productPojo.getMrp()<=0)
+            throw new ApiException("Enter valid Mrp");
         //if(checkBrand(productPojo)){
+        if(getProductByBarcode(productPojo.getBarcode())!=null)
+            throw new ApiException("Barcode already exists");
+
         productDao.insert(productPojo);
     }
 
-    private void normalize(ProductPojo productPojo) {
+    protected void normalize(ProductPojo productPojo) {
         productPojo.setProductName(StringUtil.toLowerCase(productPojo.getProductName()));
+        productPojo.setBarcode(StringUtil.toLowerCase(productPojo.getBarcode()));
     }
 
     @Transactional(rollbackOn = ApiException.class)
@@ -55,19 +60,13 @@ public class ProductService {
     }
 
     @Transactional(rollbackOn = ApiException.class)
-    private ProductPojo getCheck(int id) throws ApiException {
+    protected ProductPojo getCheck(int id) throws ApiException {
         ProductPojo productPojo= productDao.select(id);
         if(productPojo==null){
             throw new ApiException("Product with given Id doesn't exist ,id ="+id);
         }
         return productPojo;
     }
-
-    /*@Transactional(rollbackOn = ApiException.class)
-    public BrandPojo getBrand(int brandId) throws ApiException {
-        BrandPojo brandPojo=brandService.get(brandId);
-        return brandPojo;
-    }*/
 
     @Transactional
     public ProductPojo getProductByBarcode(String barcode) {

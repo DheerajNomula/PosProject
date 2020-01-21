@@ -18,15 +18,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class InventoryDto {
     @Autowired
-    InventoryService inventoryService;
+    private InventoryService inventoryService;
 
     @Autowired
-    BrandService brandService;
+    private BrandService brandService;
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     public void add( InventoryForm form) throws ApiException {
         InventoryPojo p=convert(form);

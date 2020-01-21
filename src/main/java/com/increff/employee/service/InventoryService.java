@@ -25,6 +25,7 @@ public class InventoryService {
             dao.insert(p);
     }
 
+    @Transactional
     private void checkQuantity(InventoryPojo p) throws ApiException {
         if(p.getQuantity()<0)
             throw new ApiException("Quantity cannot be negative");

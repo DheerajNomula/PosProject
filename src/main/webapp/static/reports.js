@@ -3,7 +3,7 @@ function getBaseUrl(){
  	return baseUrl;
  }
 function getReportsUrl(){
-return getBaseUrl() + "/api/reports";
+    return getBaseUrl() + "/api/reports";
 }
 var dictionary={};
 function resetForm(){
@@ -48,7 +48,7 @@ function showAllbrands(data){
 function initSelectBrandCategory(){
     $('#selectBrandCategory').empty();
     $("#selectBrandCategory").append('<option value="" selected>Select one of the Category</option>');
-    console.log(dictionary);
+//    console.log(dictionary);
     var categories={};
     for(var key in dictionary){
             var brandCategories=dictionary[key];
@@ -72,7 +72,6 @@ function generateSalesRepo(){
     var json=toJson($form);
     //console.log(json);
 
-
     $.ajax({
     	   url: url,
     	   type: 'POST',
@@ -91,7 +90,6 @@ function printSales(data){
     $thead.empty();
     var tableheader='<tr><th scope="col">Brand Category</th><th scope="col">Quantity</th><th scope="col">Revenue</th></tr>';
     $thead.append(tableheader);
-    console.log(data);
     var $tbody=$('#show-table').find('tbody');
     $tbody.empty();
 
@@ -134,7 +132,6 @@ function printInventory(data){
         $thead.empty();
         var tableheader='<tr><th scope="col">Brand Name</th><th scope="col">Brand Category</th><th scope="col">Quantity</th></tr>';
         $thead.append(tableheader);
-        console.log(data);
         var $tbody=$('#show-table').find('tbody');
         $tbody.empty();
 
@@ -166,7 +163,6 @@ function printBrand(data){
         $thead.empty();
         var tableheader='<tr><th scope="col">Brand Id</th><th scope="col">Brand Name</th><th scope="col">Brand Category</th></tr>';
         $thead.append(tableheader);
-        console.log(data);
         var $tbody=$('#show-table').find('tbody');
         $tbody.empty();
 
@@ -186,7 +182,6 @@ function init(){
     $('#selectBrandName').change(function(){
         var selectedBrand=$('#selectBrandName option:selected').val();
         $('#sales-form input[name=brandName]').val(selectedBrand);
-        console.log(selectedBrand);
         showAllCategories(selectedBrand);
         }
     );

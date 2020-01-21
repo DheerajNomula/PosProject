@@ -32,16 +32,16 @@ import java.util.List;
 @Service
 public class MakeOrderDto {
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
 
     @Autowired
-    OrderItemService orderItemService;
+    private OrderItemService orderItemService;
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     @Autowired
-    InventoryService inventoryService;
+    private InventoryService inventoryService;
 
     @Transactional(rollbackOn = ApiException.class)
     public void add(List<OrderForm> orderForms) throws ApiException {

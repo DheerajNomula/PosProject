@@ -78,14 +78,14 @@ function addToDisplayTable(orderData){
 }
 
 function deleteOrder(barcode){
-    console.log(barcode);
+//    console.log(barcode);
     delete orderItemsTable[barcode];
 
     printTable();
 }
 
 function editOrderItem(barcode){
-    console.log(barcode);
+//    console.log(barcode);
     $('#orderItem-edit-form input[name=barcode]').val(barcode);
     $('#orderItem-edit-form input[name=productName]').val(orderItemsTable[barcode].productName);
     $('#orderItem-edit-form input[name=mrp]').val(orderItemsTable[barcode].mrp);
@@ -226,7 +226,7 @@ function displayAllOrders(ordersData){
     var totalAmount=0;
     var tablerow;
     for(let i in ordersData){
-        console.log(ordersData[i]);
+//        console.log(ordersData[i]);
         order=ordersData[i];
         if(orderNo!=order.orderId){
 

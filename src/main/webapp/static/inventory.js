@@ -18,7 +18,7 @@ function getInventoryData(){
 function displayInventoryData(inventoryData){
     var $tbody=$('#inventory-table').find('tbody');
     $tbody.empty();
-    console.log(inventoryData);
+//    console.log(inventoryData);
     for(let i in inventoryData){
         var inventory=inventoryData[i];
         var buttonHtml='<button onclick="displayEditInventory('+inventory.id+')">Update</button>';

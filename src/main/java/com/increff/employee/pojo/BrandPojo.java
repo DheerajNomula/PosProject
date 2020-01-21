@@ -16,6 +16,15 @@ public class BrandPojo {
 	private String brandName;
 	private String brandCategory;
 
+	public BrandPojo() {
+	}
+
+	public BrandPojo(String brandName, String brandCategory) {
+		this.brandName = brandName;
+		this.brandCategory = brandCategory;
+	}
+
+
 	public int getId() {
 		return id;
 	}
@@ -48,4 +57,5 @@ public class BrandPojo {
 				", brandCategory='" + brandCategory + '\'' +
 				'}';
 	}
+
 }

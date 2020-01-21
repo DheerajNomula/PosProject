@@ -10,8 +10,18 @@ public class ProductPojo {
     @Column(unique = true)
     private String barcode;
     private String productName;
-    private float mrp;
+    private double mrp;
     private int brandId;
+
+    public ProductPojo() {
+    }
+
+    public ProductPojo(String barcode, String productName, double mrp, int brandId) {
+        this.barcode = barcode;
+        this.productName = productName;
+        this.mrp = mrp;
+        this.brandId = brandId;
+    }
 
     public int getBrandId() {
         return brandId;
@@ -45,11 +55,11 @@ public class ProductPojo {
         this.productName = productName;
     }
 
-    public float getMrp() {
+    public double getMrp() {
         return mrp;
     }
 
-    public void setMrp(float mrp) {
+    public void setMrp(double mrp) {
         this.mrp = mrp;
     }
 

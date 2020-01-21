@@ -23,15 +23,15 @@ public class ReportsDto {
     OrderService orderService;
 
     @Autowired
-    OrderItemService orderItemService;
+    private OrderItemService orderItemService;
 
     @Autowired
-    InventoryService inventoryService;
+    private InventoryService inventoryService;
     @Autowired
-    BrandService brandService;
+    private BrandService brandService;
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     public List<SalesData> getSales(SalesForm salesForm) throws ApiException {
 

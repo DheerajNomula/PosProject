@@ -21,11 +21,7 @@ public class BrandDto {
         BrandPojo brandPojo=convert(brandForm);
         brandService.add(brandPojo);
     }
-    
-    public void delete( int id){
-        brandService.delete(id);
-    }
-    
+
     public BrandData get( int id) throws ApiException {
         BrandPojo brandPojo=brandService.get(id);
         return convert(brandPojo);

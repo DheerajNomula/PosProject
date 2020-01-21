@@ -6,7 +6,7 @@ public class ProductData{
     private String brandCategory;
     private String barcode;
     private String productName;
-    private float mrp;
+    private double mrp;
 
     public String getBarcode() {
         return barcode;
@@ -32,13 +32,14 @@ public class ProductData{
         this.productName = productName;
     }
 
-    public float getMrp() {
+    public double getMrp() {
         return mrp;
     }
 
-    public void setMrp(float mrp) {
+    public void setMrp(double mrp) {
         this.mrp = mrp;
     }
+
 
     public String getBrandName() {
         return brandName;

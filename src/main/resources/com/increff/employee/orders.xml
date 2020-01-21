@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <orders>
     <order>
-        <barcode>a2erds3</barcode>
-        <quantity>3</quantity>
-        <mrp>25000.0</mrp>
-        <orderId>36</orderId>
-        <productName>yoga</productName>
+        <barcode>head123</barcode>
+        <quantity>4</quantity>
+        <mrp>145.0</mrp>
+        <orderId>2</orderId>
+        <productName>antidandruff 150ml</productName>
     </order>
     <order>
-        <barcode>13dasew</barcode>
-        <quantity>4</quantity>
-        <mrp>149.0</mrp>
-        <orderId>36</orderId>
-        <productName>anti dandruff</productName>
+        <barcode>puma123</barcode>
+        <quantity>2</quantity>
+        <mrp>4500.0</mrp>
+        <orderId>2</orderId>
+        <productName>casuals</productName>
     </order>
-    <orderId>36</orderId>
-    <totalAmount>75596.0</totalAmount>
+    <orderId>2</orderId>
+    <totalAmount>9580.0</totalAmount>
 </orders>
