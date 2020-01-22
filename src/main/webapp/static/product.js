@@ -195,10 +195,10 @@ function correctMrp(newMrp){
     /*console.log(newMrp);
     console.log(newMrp.match( re ));
         var re = /^[+]?[0-9]+\.[0-9]+$/;
-        if(!newMrp.match( re )){
+        if(newMrp.match(re) ){
             alert('Enter valid mrp ');
             return false;
-        }*/
+    }*/
 
         return true;
 }

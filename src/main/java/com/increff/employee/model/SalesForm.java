@@ -8,6 +8,16 @@ public class SalesForm {
     private String brandName;
     private String brandCategory;
 
+    public SalesForm() {
+    }
+
+    public SalesForm(Date startDate, Date endDate, String brandName, String brandCategory) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.brandName = brandName;
+        this.brandCategory = brandCategory;
+    }
+
     public Date getStartDate() {
         return startDate;
     }

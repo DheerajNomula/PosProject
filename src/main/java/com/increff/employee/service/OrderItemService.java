@@ -35,30 +35,7 @@ public class OrderItemService {
             throw new ApiException("Selling Price cannot be negative");
     }
 
-    /*@Transactional(rollbackOn = ApiException.class)
-    public OrderItemPojo get(int id) throws ApiException {
-        return getCheck(id);
-    }
 
-    @Transactional
-    public List<OrderItemPojo> getAll(){
-        return orderItemDao.selectAll();
-    }
-
-    @Transactional(rollbackOn = ApiException.class)
-    public void update(int id, OrderItemPojo orderItemPojo) throws ApiException {
-        System.out.println(orderItemPojo);
-        OrderItemPojo newOrderitemPojo=getCheck(id);;
-        checkOrderQuantity(orderItemPojo.getQuantity());
-        checkSellingPrice(orderItemPojo.getSellingPrice());
-
-        //newOrderitemPojo.setId(orderItemPojo.getId());
-        newOrderitemPojo.setOrderId(orderItemPojo.getOrderId());
-        newOrderitemPojo.setProductId(orderItemPojo.getProductId());
-        newOrderitemPojo.setQuantity(orderItemPojo.getQuantity());
-        newOrderitemPojo.setSellingPrice(orderItemPojo.getSellingPrice());
-    }
-*/
     protected OrderItemPojo getCheck(int id) throws ApiException {
         OrderItemPojo orderItemPojo=orderItemDao.select(id);
         if(orderItemPojo==null)
@@ -79,6 +56,7 @@ public class OrderItemService {
         if(salesForm.getEndDate().compareTo(salesForm.getStartDate())<0){
             throw new ApiException("Enter valid start and end dates dates");
         }
+
         return orderItemDao.salesReport(salesForm);
 
     }

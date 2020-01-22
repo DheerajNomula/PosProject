@@ -87,11 +87,13 @@ public class OrderServiceTest extends AbstractUnitTest {
     public void testgetCheck_valid() throws ApiException {
         OrderPojo orderPojo=new OrderPojo(new Date());
         orderService.add(orderPojo);
-        Assert.assertEquals(orderPojo.getDate(),(orderService.getCheck(1)).getDate());
+        Assert.assertEquals(orderPojo.getDate(),(orderService.getCheck(orderPojo.getId())).getDate());
     }
 
     @Test(expected = ApiException.class)
     public void testgetCheck_invalid() throws ApiException {
         orderService.getCheck(1);
     }
+
+
 }

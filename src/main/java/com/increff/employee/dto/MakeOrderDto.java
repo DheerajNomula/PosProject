@@ -52,7 +52,7 @@ public class MakeOrderDto {
 
         OrderPojo orderPojo=new OrderPojo();
         orderPojo.setDate(dateobj);
-
+        orderService.add(orderPojo);
         int orderId=orderPojo.getId();
         //int orderId=orderService.getIdByDate(dateobj);
         if(orderId<=0)

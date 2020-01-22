@@ -1,13 +1,23 @@
 package com.increff.employee.service;
 
+import com.increff.employee.model.SalesForm;
 import com.increff.employee.pojo.OrderItemPojo;
+import com.increff.employee.pojo.OrderPojo;
+import com.increff.employee.pojo.ProductPojo;
+import org.apache.xpath.operations.Or;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 public class OrderItemServiceTest extends AbstractUnitTest {
     @Autowired
     private OrderItemService orderItemService;
+    @Autowired
+    private OrderService orderService;
 
     @Test  //valid so should not throw any error
     public void testCheckOrderQuantity_valid() throws ApiException {
@@ -81,6 +91,66 @@ public class OrderItemServiceTest extends AbstractUnitTest {
         Assert.assertEquals(0,orderItemService.getByOrderId(2).size());
     }
 
-    //need to test salesreport func
+    @Test
+    public void testSalesReport_valid_null() throws ApiException {
+        Calendar c=Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE,1);
+        SalesForm salesForm=new SalesForm(new Date(),c.getTime(),"lenovo","laptops");
+        List<Object[]> sales=orderItemService.salesReport(salesForm);
+        Assert.assertEquals(0,sales.size());
+    }
+    @Test
+    public void testSalesReport_valid() throws ApiException {
+        Calendar c=Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE,1);
+        SalesForm salesForm=new SalesForm(new Date(),c.getTime(),"lenovo","laptops");
+
+        OrderPojo orderPojo=new OrderPojo(new Date());
+        orderService.add(orderPojo);
+
+        OrderItemPojo orderItemPojo=new OrderItemPojo(orderPojo.getId(),1,20,200);
+        orderItemService.add(orderItemPojo);
+
+
+        List<Object[]> sales=orderItemService.salesReport(salesForm);
+        Assert.assertEquals(1,sales.size());
+    }
+
+    @Test(expected = ApiException.class)
+    public void test_getByOrderId_start_end() throws ApiException {
+
+        Calendar c=Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE,1); // start>end
+        SalesForm salesForm=new SalesForm(c.getTime(),new Date(),"lenovo","laptops");
+
+        OrderPojo orderPojo=new OrderPojo(new Date());
+        orderService.add(orderPojo);
+
+        OrderItemPojo orderItemPojo=new OrderItemPojo(orderPojo.getId(),1,20,200);
+        orderItemService.add(orderItemPojo);
+
+
+        List<Object[]> sales=orderItemService.salesReport(salesForm);
+        Assert.assertEquals(1,sales.size());
+    }
+
+    @Test
+    public void test_getByOrderId_null() throws ApiException {
+
+        SalesForm salesForm=new SalesForm(null,null,"lenovo","laptops");
+
+        OrderPojo orderPojo=new OrderPojo(new Date());
+        orderService.add(orderPojo);
+
+        OrderItemPojo orderItemPojo=new OrderItemPojo(orderPojo.getId(),1,20,200);
+        orderItemService.add(orderItemPojo);
+
+
+        List<Object[]> sales=orderItemService.salesReport(salesForm);
+        Assert.assertEquals(1,sales.size());
+    }
 
 }

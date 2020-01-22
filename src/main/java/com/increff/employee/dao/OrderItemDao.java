@@ -57,10 +57,10 @@ public class OrderItemDao extends AbstractDao{
         /*query.setParameter("brandName",salesForm.getBrandName());
         query.setParameter("brandCategory",salesForm.getBrandCategory());*/
         List<Object[]> list=query.getResultList();
-        System.out.println(list.size());
-        for (Object[] obj : list) {
-            System.out.println(obj[0]+" "+obj[1]+" "+obj[2]);
-        }
+//        System.out.println(list.size());
+//        for (Object[] obj : list) {
+//            System.out.println(obj[0]+" "+obj[1]+" "+obj[2]);
+//        }
         return list;
     }
 }
