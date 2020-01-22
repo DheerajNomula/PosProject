@@ -42,7 +42,7 @@ public class BrandDto {
         brandService.update(id, p);
     }
     
-    private static BrandData convert(BrandPojo brandPojo) {
+    protected static BrandData convert(BrandPojo brandPojo) {
         BrandData brandData=new BrandData();
         brandData.setBrandCategory(brandPojo.getBrandCategory());
         brandData.setBrandName(brandPojo.getBrandName());
@@ -50,7 +50,7 @@ public class BrandDto {
         return brandData;
     }
 
-    private static BrandPojo convert(BrandForm brandForm) {
+    protected static BrandPojo convert(BrandForm brandForm) {
         BrandPojo brandPojo=new BrandPojo();
         brandPojo.setBrandName(brandForm.getBrandName());
         brandPojo.setBrandCategory(brandForm.getBrandCategory());

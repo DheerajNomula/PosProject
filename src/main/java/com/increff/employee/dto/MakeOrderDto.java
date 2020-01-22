@@ -66,7 +66,7 @@ public class MakeOrderDto {
 
         generateXML(orderForms,orderPojo);
     }
-    private void generateXML(List<OrderForm> orderForms,OrderPojo orderPojo) throws ApiException {
+    protected void generateXML(List<OrderForm> orderForms,OrderPojo orderPojo) throws ApiException {
         List<OrderData> orderDatas=new ArrayList<OrderData>();
         double totalAmount=0;
         for(OrderForm orderForm:orderForms){
@@ -93,7 +93,7 @@ public class MakeOrderDto {
         generatePdf();
     }
 
-    private void generatePdf() throws ApiException {
+    protected void generatePdf() throws ApiException {
         try {
             File xmlfile = new File("src/main/resources/com/increff/employee/orders.xml");
             File xsltfile = new File("src/main/resources/com/increff/employee/orderStyle.xsl");
@@ -138,14 +138,14 @@ public class MakeOrderDto {
         }
     }
 
-    private List<OrderItemPojo> convertToOrderitems(List<OrderForm> orderForms) throws ApiException {
+    protected List<OrderItemPojo> convertToOrderitems(List<OrderForm> orderForms) throws ApiException {
         List<OrderItemPojo> orderItemPojos=new ArrayList<OrderItemPojo>();
         for(OrderForm orderForm:orderForms){
             orderItemPojos.add(convertToOrderitem(orderForm));
         }
         return orderItemPojos;
     }
-    private OrderItemPojo convertToOrderitem(OrderForm orderForm) throws ApiException {
+    protected OrderItemPojo convertToOrderitem(OrderForm orderForm) throws ApiException {
         //orderId is not set
         OrderItemPojo orderItemPojo=new OrderItemPojo();
         orderItemPojo.setQuantity(orderForm.getQuantity());
@@ -173,14 +173,14 @@ public class MakeOrderDto {
     public OrderData get(String barcode) throws ApiException {
         return convert(barcode);//orderItemPOjo to orderdata
     }
-    private OrderData addProductToOrderData(ProductPojo productPojo){
+    protected OrderData addProductToOrderData(ProductPojo productPojo){
         OrderData orderData=new OrderData();
         orderData.setMrp(productPojo.getMrp());
         orderData.setBarcode(productPojo.getBarcode());
         orderData.setProductName(productPojo.getProductName());
         return orderData;
     }
-    private OrderData convert(String barcode) throws ApiException {
+    protected OrderData convert(String barcode) throws ApiException {
         ProductPojo productPojo=productService.getProductByBarcode(barcode);
         if(productPojo==null)
             throw new ApiException("Product doesn't exist ,barcode :"+barcode);

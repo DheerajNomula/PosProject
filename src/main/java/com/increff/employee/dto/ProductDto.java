@@ -51,7 +51,7 @@ public class ProductDto {
     }
 
 
-    private ProductData convert(ProductPojo p) throws ApiException {
+    protected ProductData convert(ProductPojo p) throws ApiException {
         ProductData d = new ProductData();
         d.setId(p.getId());
         d.setBarcode(p.getBarcode());
@@ -63,7 +63,7 @@ public class ProductDto {
         return d;
     }
 
-    private static ProductPojo convert(ProductForm f) {
+    protected static ProductPojo convert(ProductForm f) {
         ProductPojo p = new ProductPojo();
         p.setMrp(f.getMrp());
         p.setBrandId(f.getBrandId());
@@ -72,7 +72,7 @@ public class ProductDto {
         return p;
     }
 
-    private boolean checkBrand(ProductPojo p) {
+    protected boolean checkBrand(ProductPojo p) {
         try {
             BrandPojo brandPojo=brandService.get(p.getBrandId());
         } catch (ApiException e) {
