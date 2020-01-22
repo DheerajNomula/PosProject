@@ -14,6 +14,13 @@ public class OrderPojo {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
+    public OrderPojo() {
+    }
+
+    public OrderPojo(Date date) {
+        this.date = date;
+    }
+
     @DateTimeFormat(pattern = "dd-MM-yyyy hh:mm")
     private Date date;
 

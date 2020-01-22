@@ -38,12 +38,4 @@ public class InventoryDao extends AbstractDao{
 
     }
 
-
-    /*public int checkIdInInventory(int id) {
-        Query query=em.createQuery(checkId);
-        query.setParameter("id",id);
-        Number number=(Number)query.getSingleResult();
-        int num=number.intValue();
-        return num;
-    }*/
 }

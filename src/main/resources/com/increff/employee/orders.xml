@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <orders>
     <order>
-        <barcode>head123</barcode>
-        <quantity>4</quantity>
-        <mrp>145.0</mrp>
-        <orderId>2</orderId>
-        <productName>antidandruff 150ml</productName>
+        <barcode>laptop123</barcode>
+        <quantity>10</quantity>
+        <mrp>25000.0</mrp>
+        <orderId>1</orderId>
+        <productName>thinkpad</productName>
     </order>
-    <order>
-        <barcode>puma123</barcode>
-        <quantity>2</quantity>
-        <mrp>4500.0</mrp>
-        <orderId>2</orderId>
-        <productName>casuals</productName>
-    </order>
-    <orderId>2</orderId>
-    <totalAmount>9580.0</totalAmount>
+    <orderId>1</orderId>
+    <totalAmount>250000.0</totalAmount>
 </orders>

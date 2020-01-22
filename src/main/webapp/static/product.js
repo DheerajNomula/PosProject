@@ -14,6 +14,7 @@ function addProduct(event){
     var $form=$('#product-form');
 
     var brandId=$('#product-form input[name=brandId]').val();
+
     var json=toJson($form);
     var url=getProductUrl();
     if(Number.isNaN(brandId) || brandId<=0){
@@ -22,8 +23,7 @@ function addProduct(event){
     }
     if(!correctMrp($('#product-form input[name=mrp]').val()))
     {
-        alert('Mrp should be Positive');
-        return;
+        return false;
     }
     $.ajax({
         url:url,
@@ -84,6 +84,8 @@ function displayEditProduct(id){
     });
 }
 function displayProduct(data){
+    console.log('in edit(id) sub fun');
+    console.log(data);
 
      $("#product-edit-form input[name=productName]").val(data.productName);
      $("#product-edit-form input[name=barcode]").val(data.barcode);
@@ -190,10 +192,15 @@ function showAllCategories(brand){
 }
 ///////////////////////////////////////
 function correctMrp(newMrp){
-    newMrp=Number(newMrp);
-    if(newMrp<0)
-    return false
-    return true;
+    /*console.log(newMrp);
+    console.log(newMrp.match( re ));
+        var re = /^[+]?[0-9]+\.[0-9]+$/;
+        if(!newMrp.match( re )){
+            alert('Enter valid mrp ');
+            return false;
+        }*/
+
+        return true;
 }
 function updateProduct(event){
     var id=$('#product-edit-form input[name=updateId]').val();
@@ -201,13 +208,11 @@ function updateProduct(event){
     var url=getProductUrl()+'/'+id;
     var $form=$('#product-edit-form');
     var json=toJson($form);
-//    console.log(json);
     if(Number.isNaN(Number(brandId))){
         alert('Enter correct brand details');
         return false;
     }
     if(!correctMrp($('#product-edit-form input[name=mrp]').val())){
-        alert('Check the Mrp');
         return false;
     }
     $.ajax({
@@ -261,17 +266,36 @@ function readFileDataCallback(results){
 }
 function uploadRows(){
 	updateUploadDialog();
+	console.log(processCount);
 	if(processCount==fileData.length){
-		return;
-	}
+    		return;
+    	}
 
 	var row = fileData[processCount];
+	processCount++;
 	//createDictionary();
-	row["brandId"]=Number(dictionary[row["brandName"]][row["brandCategory"]]);
+	console.log(row);
+	var error=0;
+	if(!dictionary.hasOwnProperty(row["brandName"])){
+	    row.error="brand name does not exists";
+        error++;
+	}
+	if(!dictionary[row["brandName"]].hasOwnProperty(row["brandCategory"])){
+    	    row.error="brand category does not exist";
+
+    }
+    //console.log(row);
+    if(error){
+        errorData.push(row);
+        uploadRows();
+    }
+//	console.log(row["brandName"],row["brandCategory"],dictionary[row["brandName"]][row["brandCategory"]]);
+	row["brandId"]=dictionary[row["brandName"]][row["brandCategory"]];
+//	console.log(row,typeof(row),typeof(dictionary[row["brandName"]][row["brandCategory"]]));
 	delete row["brandName"];
     delete row["brandCategory"];
 
-	processCount++;
+
 	var json = JSON.stringify(row);
 	var url = getProductUrl();
 

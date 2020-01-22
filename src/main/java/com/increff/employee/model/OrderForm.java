@@ -7,6 +7,14 @@ public class OrderForm {
     private String barcode;
     private int quantity;
 
+    public OrderForm() {
+    }
+
+    public OrderForm(String barcode, int quantity) {
+        this.barcode = barcode;
+        this.quantity = quantity;
+    }
+
     public int getQuantity() {
         return quantity;
     }

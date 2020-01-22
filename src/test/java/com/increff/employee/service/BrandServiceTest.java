@@ -68,24 +68,6 @@ public class BrandServiceTest extends AbstractUnitTest{
     }
 
     @Test
-    public void testGetAll() throws ApiException { //testing getAll()
-        for(int i=0;i<5;i++){
-            BrandPojo brandPojo=new BrandPojo("brand "+i,"category "+i);
-            brandService.add(brandPojo);
-        }
-        List<BrandPojo> brandPojos=brandService.getAll();
-        int i=0;
-        for(BrandPojo brandPojo:brandPojos){
-            Assert.assertEquals("brand "+i,brandPojo.getBrandName());
-            Assert.assertEquals("category "+i,brandPojo.getBrandCategory());
-            i++;
-        }
-        Assert.assertEquals(5,brandPojos.size());
-    }
-
-
-
-    @Test
     public void testAddBrand_Name() throws ApiException { //testing Add() with passing valid data
         BrandPojo actualBrand=new BrandPojo();
         actualBrand.setBrandCategory("laptops");
@@ -110,6 +92,29 @@ public class BrandServiceTest extends AbstractUnitTest{
         BrandPojo brand1=new BrandPojo(); //redundant test case already checking the checkIfempty method
         brand1.setBrandName("acer");
         brandService.add(brand1);
+    }
+
+    @Test
+    public void testGetAll() throws ApiException { //testing getAll()
+        for(int i=0;i<5;i++){
+            BrandPojo brandPojo=new BrandPojo("brand "+i,"category "+i);
+            brandService.add(brandPojo);
+        }
+        List<BrandPojo> brandPojos=brandService.getAll();
+        int i=0;
+        for(BrandPojo brandPojo:brandPojos){
+            Assert.assertEquals("brand "+i,brandPojo.getBrandName());
+            Assert.assertEquals("category "+i,brandPojo.getBrandCategory());
+            i++;
+        }
+        Assert.assertEquals(5,brandPojos.size());
+    }
+
+    @Test
+    public void testGetAll_null() throws ApiException { //testing getAll()
+
+        List<BrandPojo> brandPojos=brandService.getAll();
+        Assert.assertEquals(0,brandPojos.size());
     }
 
     @Test

@@ -56,8 +56,10 @@ function editInventory(inventoryData,id){
 function updateInventory(event){
     var id=$('#inventory-edit-form input[name=id]').val();
     var url=getInventoryUrl()+'/'+id;
-    var qty=Number($('inventory-edit-form inputp[name=quantity').val());
-    if(qty<0){alert('Quantity cannot be negative');return;}
+    var qty=Number($('#inventory-edit-form input[name=quantity').val());
+    console.log(qty);
+    if(qty<0 || isNaN(qty) || !Number.isInteger(qty)){alert('Enter valid quantity');return;}
+
     var $form=$('#inventory-edit-form');
     var json=toJson($form);
     $.ajax({

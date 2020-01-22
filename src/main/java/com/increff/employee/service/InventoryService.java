@@ -25,10 +25,9 @@ public class InventoryService {
             dao.insert(p);
     }
 
-    @Transactional
-    private void checkQuantity(InventoryPojo p) throws ApiException {
+    protected void checkQuantity(InventoryPojo p) throws ApiException {
         if(p.getQuantity()<0)
-            throw new ApiException("Quantity cannot be negative");
+            p.setQuantity(0);
     }
     public InventoryPojo get(int id) throws ApiException {
         return getCheck(id);
@@ -37,12 +36,14 @@ public class InventoryService {
     public List<InventoryPojo> getAll(){
         return dao.selectAll();
     }
-    @Transactional(rollbackOn = ApiException.class)
+
+    @Transactional
     public void update(int id,InventoryPojo p) throws ApiException {
         if(id!=p.getId())throw new ApiException("Id's should match in form and selected");
         checkQuantity(p);
-//        checkProductId(p.getId()); this is redundant as we are inserting the inevntory by checking this
+
         InventoryPojo newInventoryPojo=getCheck(id);
+
         newInventoryPojo.setQuantity(p.getQuantity());
         dao.update(newInventoryPojo);
     }

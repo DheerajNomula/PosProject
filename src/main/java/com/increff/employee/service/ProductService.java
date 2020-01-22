@@ -20,6 +20,13 @@ public class ProductService {
     @Transactional(rollbackOn = ApiException.class)
     public void add(ProductPojo productPojo) throws ApiException {
         normalize(productPojo);
+        check(productPojo);
+        if(getProductByBarcode(productPojo.getBarcode())!=null)
+            throw new ApiException("Barcode already exists");
+        productDao.insert(productPojo);
+    }
+
+    protected void check(ProductPojo productPojo) throws ApiException {
         if (StringUtil.isEmpty(productPojo.getProductName())) {
             throw new ApiException("Product Name cannot be empty");
         }
@@ -29,10 +36,7 @@ public class ProductService {
         if(productPojo.getMrp()<=0)
             throw new ApiException("Enter valid Mrp");
         //if(checkBrand(productPojo)){
-        if(getProductByBarcode(productPojo.getBarcode())!=null)
-            throw new ApiException("Barcode already exists");
 
-        productDao.insert(productPojo);
     }
 
     protected void normalize(ProductPojo productPojo) {
@@ -40,7 +44,7 @@ public class ProductService {
         productPojo.setBarcode(StringUtil.toLowerCase(productPojo.getBarcode()));
     }
 
-    @Transactional(rollbackOn = ApiException.class)
+    @Transactional
     public ProductPojo get(int id) throws ApiException {
         return getCheck(id);
     }
@@ -51,8 +55,13 @@ public class ProductService {
     @Transactional(rollbackOn = ApiException.class)
     public void update(int id,ProductPojo productPojo) throws ApiException{
         normalize(productPojo);
-        //checkBrand(productPojo);
+        check(productPojo);
+
         ProductPojo newProductPojo=getCheck(id);
+        if(!newProductPojo.getBarcode().equalsIgnoreCase(productPojo.getBarcode())) {
+            if(getProductByBarcode(productPojo.getBarcode())!=null)
+            throw new ApiException("Invalid Barcode");
+        }
         newProductPojo.setProductName(productPojo.getProductName());
         newProductPojo.setBarcode(productPojo.getBarcode());
         newProductPojo.setBrandId(productPojo.getBrandId());
@@ -73,12 +82,10 @@ public class ProductService {
         return productDao.selectProductByBarcode(barcode);
     }
 
+    //return 1 if id exists 0 if it doesn't
     @Transactional
     public int checkId(int id) {
         return productDao.countId(id);
     }
 
-    public List<Integer> getIdsByBrand(int brandId) {
-        return productDao.getIdsByBrand(brandId);
-    }
 }

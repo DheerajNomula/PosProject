@@ -52,7 +52,7 @@ public class MakeOrderDto {
 
         OrderPojo orderPojo=new OrderPojo();
         orderPojo.setDate(dateobj);
-        OrderPojo updatedOrderPojo=orderService.add(orderPojo);
+
         int orderId=orderPojo.getId();
         //int orderId=orderService.getIdByDate(dateobj);
         if(orderId<=0)
@@ -209,20 +209,5 @@ public class MakeOrderDto {
         }
         return orderDatas;
     }
-
-    /*public List<OrderData> getAll() throws ApiException {
-        List<OrderData> orderDatas=new ArrayList<OrderData>();
-        List<OrderItemPojo> orderPojos=orderItemService.getAll();
-        for(OrderItemPojo orderItemPojo:orderPojos)
-        {
-            orderDatas.add(convert(orderItemPojo));
-        }
-        return orderDatas;
-    }*/
-
-    /*public void update(int id,OrderForm f) throws ApiException {
-        orderItemService.update(id,convertToOrderitem(f));
-    }
-*/
 
 }

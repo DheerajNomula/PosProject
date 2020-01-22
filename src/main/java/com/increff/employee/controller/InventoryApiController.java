@@ -37,6 +37,7 @@ public class InventoryApiController {
     @ApiOperation(value="Update the inventory")
     @RequestMapping(path = "/api/inventory/{id}",method = RequestMethod.PUT)
     public void update(@PathVariable int id,@RequestBody InventoryForm form) throws ApiException {
+        System.out.println(form);
         inventoryDto.update(id,form);
     }
 

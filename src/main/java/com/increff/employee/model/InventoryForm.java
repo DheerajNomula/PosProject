@@ -4,6 +4,14 @@ public class InventoryForm {
     private String barcode;
     private int quantity;
 
+    public InventoryForm(String barcode, int quantity) {
+        this.barcode = barcode;
+        this.quantity = quantity;
+    }
+
+    public InventoryForm() {
+    }
+
     public String getBarcode() {
         return barcode;
     }

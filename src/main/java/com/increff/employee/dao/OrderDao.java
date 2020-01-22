@@ -40,20 +40,4 @@ public class OrderDao extends AbstractDao{
 
     public void update(OrderPojo pojo){}
 
-    public int getIdByDate(Date dateobj) {
-        Query query=em.createQuery(getIdByDate);
-        query.setParameter("date",dateobj);
-        Number number=(Number)query.getSingleResult();
-        int num=number.intValue();
-        System.out.println("last order value: "+num);
-        return num;
-    }
-
-    public List<Integer> getOrdersBetween(Date startDate, Date endDate) {
-        TypedQuery<Integer> query=em.createQuery(ordersBetweenDates,Integer.class);
-        query.setParameter("startDate",startDate);
-        query.setParameter("endDate",endDate);
-        List<Integer> list=query.getResultList();
-        return list;
-    }
 }

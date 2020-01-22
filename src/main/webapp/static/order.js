@@ -2,6 +2,7 @@ function getOrderUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	return baseUrl + "/api/order";
 }
+//qty if > available it replaces
 
 function getOrderItemDetails(){
     // barcode pass as param
@@ -18,12 +19,13 @@ function getOrderItemDetails(){
 }
 function checkPreviouslyBarcode(orderData){
     var requiredQuantity=Number($('#order-form input[name=quantity]').val());
+    if(requiredQuantity<0 || isNaN(requiredQuantity) || !Number.isInteger(requiredQuantity)){alert('Enter valid quantity');return;}
     if(orderItemsTable.hasOwnProperty(orderData.barcode)){
     alert('Barcode already exists,updating the quantity');
 
-        if(orderItemsTable[orderData.barcode].quantity+requiredQuantity<orderData.quantity){
+        //if(orderItemsTable[orderData.barcode].quantity+requiredQuantity<orderData.quantity){
         requiredQuantity+=orderItemsTable[orderData.barcode].quantity;
-        }
+        //}
      }
     return requiredQuantity;
 }
@@ -95,8 +97,8 @@ function editOrderItem(barcode){
 function checkForQuantityAndDisplay(orderData){
 
     var availableQuantity=orderData.quantity;
-        var requiredQuantity=$('#orderItem-edit-form input[name=quantity]').val();
-
+    var requiredQuantity=Number($('#orderItem-edit-form input[name=quantity]').val());
+    if(requiredQuantity<0 || isNaN(requiredQuantity) || !Number.isInteger(requiredQuantity)){alert('Enter valid quantity');return;}
         if(requiredQuantity>availableQuantity)
         {
             alert('Entered Quantity : '+requiredQuantity+' but existing quantity: '+orderData.quantity);
@@ -126,11 +128,15 @@ function addOrderItem(){
 
     var barcodeLength=$.trim($('#order-form input[name=barcode]').val()).length; // check for null
     var quantityLength=$.trim($('#order-form input[name=quantity]').val()).length;
-    if(barcodeLength ==0 || quantityLength==0 || $('#order-form input[name=quantity]').val()==0)
+    if(barcodeLength ==0 || quantityLength==0)
     {
         alert('Please enter the values correctly');
         return false;
     }
+    var qty=Number($('#order-form input[name=quantity]').val());
+    //console.log(qty);
+    if(qty<0 || isNaN(qty) || !Number.isInteger(qty)){alert('Enter valid quantity');return;}
+
     getOrderItemDetails();
 }
 function updateOrderItem(){
@@ -181,10 +187,20 @@ function completeOrder(){
             'Content-Type':'application/json'
         },
         success:function(response){
+            alert("Order Placed successfully");
             clearAll();
         },
         error:handleAjaxError
     })
+}
+function correctMrp(newMrp){
+        /*var re = /^[+]?[0-9]+\.[0-9]+$/;
+        if(!newMrp.match( re )){
+            alert('Enter valid mrp ');
+            return false;
+        }*/
+
+        return true;
 }
 function disableButtons(){
     $("#add-order").attr("disabled", true);

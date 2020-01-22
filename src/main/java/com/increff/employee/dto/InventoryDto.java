@@ -29,11 +29,12 @@ public class InventoryDto {
     @Autowired
     private ProductService productService;
 
-    public void add( InventoryForm form) throws ApiException {
+    public InventoryPojo add( InventoryForm form) throws ApiException {
         InventoryPojo p=convert(form);
         if(!checkProductId(p)) {
             inventoryService.add(p);
         }
+        return p;
     }
     
     public InventoryData get(int id) throws ApiException {
@@ -51,10 +52,11 @@ public class InventoryDto {
     }
 
     public void update( int id, InventoryForm form) throws ApiException {
+
         inventoryService.update(id,convert(form));
     }
     
-    public InventoryData convert(InventoryPojo p) throws ApiException {
+    protected InventoryData convert(InventoryPojo p) throws ApiException {
         InventoryData data=new InventoryData();
         data.setQuantity(p.getQuantity());
 
@@ -74,7 +76,7 @@ public class InventoryDto {
         return brandService.get(brandId);
     }
 
-    public InventoryPojo convert(InventoryForm form) {
+    protected InventoryPojo convert(InventoryForm form) {
         InventoryPojo pojo=new InventoryPojo();
 
         pojo.setQuantity(form.getQuantity());
@@ -90,12 +92,13 @@ public class InventoryDto {
         return productPojo.getId();
     }
 
-    public boolean checkProductId(InventoryPojo inventoryPojo) throws ApiException {
+    //true - when product exists in table otherwise false
+    //return exception when prod does not exist
+    protected boolean checkProductId(InventoryPojo inventoryPojo) throws ApiException {
         if(productService.checkId(inventoryPojo.getId())==0)
             throw new ApiException("Product Id does not exists in product table");
         try {
             InventoryPojo existingPojo=inventoryService.get(inventoryPojo.getId());
-            System.out.println("Product Id already exists in inventory table");
             existingPojo.setQuantity(existingPojo.getQuantity()+inventoryPojo.getQuantity());
             inventoryService.update(inventoryPojo.getId(),existingPojo);
             return true;

@@ -58,4 +58,8 @@ public class BrandDao extends AbstractDao {
         int num=number.intValue();
         return num;
     }
+
+    public int checkId(int brandId) {
+        return 0;
+    }
 }

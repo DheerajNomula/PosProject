@@ -72,17 +72,16 @@ public class ProductDto {
         return p;
     }
 
-    private boolean checkBrand(ProductPojo p) throws ApiException {
-
-        List<BrandPojo> brandPojos=brandService.getAll();
-        for(BrandPojo brandPojo:brandPojos){
-            if(brandPojo.getId()==p.getBrandId())
-                return true;
+    private boolean checkBrand(ProductPojo p) {
+        try {
+            BrandPojo brandPojo=brandService.get(p.getBrandId());
+        } catch (ApiException e) {
+            return false;
         }
-        throw new ApiException("Brand with id:"+p.getBrandId()+" doestn't exist ");
+        return true;
     }
 
-    public BrandPojo getBrand(int brandId) throws ApiException {
+    protected BrandPojo getBrand(int brandId) throws ApiException {
         BrandPojo brandPojo=brandService.get(brandId);
         return brandPojo;
     }

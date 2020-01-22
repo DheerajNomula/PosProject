@@ -15,8 +15,15 @@ public class OrderService {
     @Autowired
     private OrderDao orderDao;
 
+    protected void checkNullDate(Date date) throws ApiException {
+        if(date==null){
+            throw new ApiException("Date is null");
+        }
+    }
+
     @Transactional
-    public OrderPojo add(OrderPojo orderPojo){
+    public OrderPojo add(OrderPojo orderPojo) throws ApiException {
+        checkNullDate(orderPojo.getDate());
         return orderDao.insert(orderPojo);
     }
 
@@ -24,6 +31,7 @@ public class OrderService {
     public OrderPojo get(int id) throws ApiException {
         return getCheck(id);
     }
+
 
     public List<OrderPojo> getAll(){
         return orderDao.selectAll();
@@ -33,21 +41,13 @@ public class OrderService {
     public void update(int id,OrderPojo orderPojo) throws ApiException {
         OrderPojo newOrderPojo=getCheck(id);
         newOrderPojo.setDate(orderPojo.getDate());
-        newOrderPojo.setId(orderPojo.getId());
     }
 
-    public OrderPojo getCheck(int id) throws ApiException {
+    protected OrderPojo getCheck(int id) throws ApiException {
         OrderPojo orderPojo=orderDao.select(id);
         if(orderPojo==null)
             throw new ApiException("Order with given Id doesn't exist ,id : "+id);
         return orderPojo;
     }
 
-    public int getIdByDate(Date dateobj) {
-        return orderDao.getIdByDate(dateobj);
-    }
-
-    public List<Integer> getOrdersBetween(Date startDate, Date endDate) {
-        return orderDao.getOrdersBetween(startDate,endDate);
-    }
 }

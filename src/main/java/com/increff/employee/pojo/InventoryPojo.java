@@ -27,6 +27,14 @@ public class InventoryPojo {
         this.quantity = quantity;
     }
 
+    public InventoryPojo() {
+    }
+
+    public InventoryPojo(int id, int quantity) {
+        this.id = id;
+        this.quantity = quantity;
+    }
+
     @Override
     public String toString() {
         return "InventoryPojo{" +
@@ -34,4 +42,6 @@ public class InventoryPojo {
                 ", quantity=" + quantity +
                 '}';
     }
+
+
 }
