@@ -23,7 +23,7 @@ public class OrderItemDao extends AbstractDao{
     private static String example="select o.productId,sum(o.quantity),sum(o.sellingPrice) from OrderItemPojo o  where o.orderId in " +
             "(select p.id from OrderPojo p where p.date between :startDate and :endDate) group by o.productId";
     @PersistenceContext
-    EntityManager em;
+    private EntityManager em;
 
     @Transactional
     public void insert(OrderItemPojo orderItemPojo){

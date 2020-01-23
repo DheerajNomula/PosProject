@@ -19,7 +19,7 @@ public class OrderDao extends AbstractDao{
     private static String getIdByDate="select p.id from OrderPojo p where date=:date";
     private static String ordersBetweenDates="select p.id from OrderPojo p where p.date between :startDate and :endDate";
     @PersistenceContext
-    EntityManager em;
+    private EntityManager em;
 
     @Transactional
     public OrderPojo insert(OrderPojo orderPojo){

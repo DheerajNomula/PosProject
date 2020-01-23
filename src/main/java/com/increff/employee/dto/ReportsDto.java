@@ -20,7 +20,7 @@ import java.util.*;
 public class ReportsDto {
 
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
 
     @Autowired
     private OrderItemService orderItemService;

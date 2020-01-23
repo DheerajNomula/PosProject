@@ -1,5 +1,6 @@
 package com.increff.employee.dto;
 
+import com.increff.employee.model.InventoryData;
 import com.increff.employee.model.OrderData;
 import com.increff.employee.model.OrderForm;
 import com.increff.employee.pojo.InventoryPojo;
@@ -9,6 +10,7 @@ import com.increff.employee.pojo.ProductPojo;
 import com.increff.employee.service.*;
 import com.increff.employee.util.Orders;
 import org.apache.fop.apps.*;
+import org.apache.xpath.operations.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +26,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class MakeOrderDto {
@@ -48,6 +47,7 @@ public class MakeOrderDto {
         //int orderId=orderService.getLastOrder();//last order id +1 assuming no deletion of orders autowired so it will work
         //Date dateobj = new Date(Calendar.getInstance().getTime().getTime());
         Date dateobj=new Date();
+        orderForms=checkForDuplicates(orderForms);
         List<OrderItemPojo>orderItemPojos=convertToOrderitems(orderForms);// no errros
 
         OrderPojo orderPojo=new OrderPojo();
@@ -66,6 +66,26 @@ public class MakeOrderDto {
 
         generateXML(orderForms,orderPojo);
     }
+
+    private List<OrderForm> checkForDuplicates(List<OrderForm> orderForms) {
+        Map<String,Integer> map=new HashMap<>();
+        List<OrderForm> newList=new ArrayList<>();
+        for(OrderForm orderForm:orderForms){
+            if(map.containsKey(orderForm.getBarcode())){
+                map.put(orderForm.getBarcode(),orderForm.getQuantity()+map.get(orderForm.getBarcode()));
+            }
+            else{
+                map.put(orderForm.getBarcode(),orderForm.getQuantity());
+            }
+        }
+        for(Map.Entry m:map.entrySet()){
+            OrderForm orderForm=new OrderForm((String)m.getKey(),(int)m.getValue());
+            newList.add(orderForm);
+            //System.out.println(m.getValue());
+        }
+        return newList;
+    }
+
     protected void generateXML(List<OrderForm> orderForms,OrderPojo orderPojo) throws ApiException {
         List<OrderData> orderDatas=new ArrayList<OrderData>();
         double totalAmount=0;
@@ -148,6 +168,8 @@ public class MakeOrderDto {
     protected OrderItemPojo convertToOrderitem(OrderForm orderForm) throws ApiException {
         //orderId is not set
         OrderItemPojo orderItemPojo=new OrderItemPojo();
+        if(orderForm.getQuantity()<0)
+            orderForm.setQuantity(0);
         orderItemPojo.setQuantity(orderForm.getQuantity());
         //orderItemPojo.setOrderId(orderId);
 

@@ -1,13 +1,21 @@
 package com.increff.employee.model;
 
-import com.increff.employee.pojo.BrandPojo;
-
 public class ProductForm {
 
     private String barcode;
     private int brandId;
     private String productName;
     private double mrp;
+
+    public ProductForm() {
+    }
+
+    public ProductForm(String barcode, int brandId, String productName, double mrp) {
+        this.barcode = barcode;
+        this.brandId = brandId;
+        this.productName = productName;
+        this.mrp = mrp;
+    }
 
     public String getBarcode() {
         return barcode;

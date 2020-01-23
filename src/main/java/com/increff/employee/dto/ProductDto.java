@@ -24,10 +24,8 @@ public class ProductDto {
 
     public void add( ProductForm form) throws ApiException {
         ProductPojo productPojo = convert(form);
-        if(checkBrand(productPojo)){
-            productService.add(productPojo);
-        }
-
+        checkBrand(productPojo);
+        productService.add(productPojo);
     }
 
     public ProductData get( int id) throws ApiException {
@@ -72,13 +70,12 @@ public class ProductDto {
         return p;
     }
 
-    protected boolean checkBrand(ProductPojo p) {
+    protected void checkBrand(ProductPojo p) throws ApiException {
         try {
             BrandPojo brandPojo=brandService.get(p.getBrandId());
         } catch (ApiException e) {
-            return false;
+            throw new ApiException("Brand details not found");
         }
-        return true;
     }
 
     protected BrandPojo getBrand(int brandId) throws ApiException {

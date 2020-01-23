@@ -36,13 +36,6 @@ public class OrderItemService {
     }
 
 
-    protected OrderItemPojo getCheck(int id) throws ApiException {
-        OrderItemPojo orderItemPojo=orderItemDao.select(id);
-        if(orderItemPojo==null)
-            throw new ApiException("OrderItem with id :"+id+" doesn't exist");
-        return orderItemPojo;
-    }
-
     public List<OrderItemPojo> getByOrderId(int id) {
         return orderItemDao.getByOrderId(id);
     }

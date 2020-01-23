@@ -1,5 +1,6 @@
 package com.increff.employee.service;
 
+import com.increff.employee.dao.ProductDao;
 import com.increff.employee.pojo.BrandPojo;
 import com.increff.employee.pojo.ProductPojo;
 import org.junit.Assert;
@@ -15,11 +16,8 @@ public class ProductServiceTest extends AbstractUnitTest {
     @Autowired
     private BrandService brandService;
 
-    @Before
-    public void init() throws ApiException {
-        BrandPojo brandPojo=new BrandPojo("lenovo","laptops");
-        brandService.add(brandPojo);
-    }
+    @Autowired
+    private ProductDao productDao;
 
     @Test
     public void  testNormalize() throws ApiException {
@@ -42,7 +40,7 @@ public class ProductServiceTest extends AbstractUnitTest {
         ProductPojo productPojo=new ProductPojo(" LeNovo123 ","thiNkPad",25000.00,1);
         productService.add(productPojo);
 
-        List<ProductPojo> productPojoList=productService.getAll();
+        List<ProductPojo> productPojoList=productDao.selectAll();
         Assert.assertEquals((productPojoList.get(0)).getId(),productPojo.getId());
     }
 
@@ -76,8 +74,8 @@ public class ProductServiceTest extends AbstractUnitTest {
 
     @Test
     public void testGet_valid() throws ApiException {
-        ProductPojo productPojo=new ProductPojo(" LeNovo123 "," thiNKPad",25000.00,1);
-        productService.add(productPojo);
+        ProductPojo productPojo=new ProductPojo("lenovo123","thinkpad",25000.00,1);
+        productDao.insert(productPojo);
 
         ProductPojo fromDb=productService.get(productPojo.getId());
         Assert.assertEquals(productPojo.getBarcode(),fromDb.getBarcode());
@@ -85,8 +83,8 @@ public class ProductServiceTest extends AbstractUnitTest {
 
     @Test(expected = ApiException.class)
     public void testGet_invalid() throws ApiException {
-        ProductPojo productPojo=new ProductPojo(" LeNovo123 "," thiNKPad",25000.00,1);
-        productService.add(productPojo);
+        ProductPojo productPojo=new ProductPojo("lenovo123","thinkpad",25000.00,1);
+        productDao.insert(productPojo);
 
         ProductPojo fromDb=productService.get(productPojo.getId()+10);
         Assert.assertEquals(productPojo.getBarcode(),fromDb.getBarcode());
@@ -96,7 +94,7 @@ public class ProductServiceTest extends AbstractUnitTest {
     public void testGetAll_valid() throws ApiException {
         for(int i=0;i<5;i++){
             ProductPojo productPojo=new ProductPojo(" barcode "+i,"name"+i,25000.00,1);
-            productService.add(productPojo);
+            productDao.insert(productPojo);
         }
 
         List<ProductPojo> productPojoList=productService.getAll();
@@ -109,8 +107,8 @@ public class ProductServiceTest extends AbstractUnitTest {
     }
     @Test
     public void testGetCheck_valid() throws ApiException {
-        ProductPojo productPojo=new ProductPojo(" LeNovo123 "," thiNKPad",25000.00,1);
-        productService.add(productPojo);
+        ProductPojo productPojo=new ProductPojo("lenovo123","thinkpad",25000.00,1);
+        productDao.insert(productPojo);
 
         ProductPojo fromDb=productService.getCheck(productPojo.getId());
         Assert.assertEquals(productPojo.getBarcode(),fromDb.getBarcode());
@@ -119,19 +117,19 @@ public class ProductServiceTest extends AbstractUnitTest {
 
     @Test(expected = ApiException.class)
     public void testGetCheck_invalid() throws ApiException {
-        ProductPojo productPojo=new ProductPojo(" LeNovo123 "," thiNKPad",25000.00,1);
-        productService.add(productPojo);
+        ProductPojo productPojo=new ProductPojo("lenovo123","thinkpad",25000.00,1);
+        productDao.insert(productPojo);
 
         ProductPojo fromDb=productService.getCheck(productPojo.getId()+1);
     }
     @Test
     public void testUpdate_valid() throws ApiException {
-        ProductPojo productPojo=new ProductPojo(" LeNovo123 "," thiNKPad",25000.00,1);
-        productService.add(productPojo);
+        ProductPojo productPojo=new ProductPojo("lenovo123","thinkpad",25000.00,1);
+        productDao.insert(productPojo);
 
         ProductPojo productPojo1=new ProductPojo("lenovo12","laptops",15000,1);
         productService.update(productPojo.getId(),productPojo1);
-        productPojo=productService.get(productPojo.getId());
+        productPojo=productDao.select(productPojo.getId());
         Assert.assertEquals(productPojo1.getBarcode(),productPojo.getBarcode());
         Assert.assertEquals(productPojo1.getProductName(),productPojo.getProductName());
         Assert.assertEquals(productPojo1.getMrp(),productPojo.getMrp(),0.00f);
@@ -139,27 +137,27 @@ public class ProductServiceTest extends AbstractUnitTest {
 
     @Test(expected = ApiException.class)
     public void testUpdate_Invalid_Id() throws ApiException {
-        ProductPojo productPojo=new ProductPojo(" LeNovo123 "," thiNKPad",25000.00,1);
-        productService.add(productPojo);
+        ProductPojo productPojo=new ProductPojo("lenovo123","thinkpad",25000.00,1);
+        productDao.insert(productPojo);
 
         productService.update(productPojo.getId()+1,new ProductPojo(" LeNovo123 "," thiNKPad",25000.00,1));
     }
 
     @Test(expected = ApiException.class)
     public void testUpdate_Invalid_DuplicateBarcode() throws ApiException {
-        ProductPojo productPojo=new ProductPojo(" LeNovo123 "," thiNKPad",25000.00,1);
-        productService.add(productPojo);
+        ProductPojo productPojo=new ProductPojo("lenovo123","thinkPad",25000.00,1);
+        productDao.insert(productPojo);
         ProductPojo productPojo1=new ProductPojo("lenovo12","thinkspad",15000,1);
-        productService.add(productPojo1);
+        productDao.insert(productPojo1);
 
-        productService.update(productPojo1.getId(),new ProductPojo(" LeNovo123 "," thiNKPad",25000.00,1));
+        productService.update(productPojo1.getId(),new ProductPojo("LeNovo123 "," thiNKPad",25000.00,1));
     }
 
     @Test(expected = ApiException.class)
     public void testUpdate_Invalid_barcode() throws ApiException {
-        ProductPojo productPojo=new ProductPojo(" LeNovo123 "," thiNKPad",25000.00,1);
-        productService.add(productPojo);
-        ProductPojo productPojo1=new ProductPojo(" ","thinkspad",15000,1);
+        ProductPojo productPojo=new ProductPojo("lenovo123","thinkPad",25000.00,1);
+        productDao.insert(productPojo);
+        ProductPojo productPojo1=new ProductPojo(" ","thinkpad",15000,1);
 
         productService.update(productPojo.getId(),productPojo1);
     }
@@ -167,8 +165,8 @@ public class ProductServiceTest extends AbstractUnitTest {
 
     @Test
     public void testGetProductByBarcode_valid() throws ApiException {
-        ProductPojo productPojo=new ProductPojo(" LeNovo123 "," thiNKPad",25000.00,1);
-        productService.add(productPojo);
+        ProductPojo productPojo=new ProductPojo("lenovo123","thinkpad",25000.00,1);
+        productDao.insert(productPojo);
 
         ProductPojo fromDb=productService.getProductByBarcode(productPojo.getBarcode());
         Assert.assertEquals(productPojo.getProductName(),fromDb.getProductName());
@@ -179,8 +177,8 @@ public class ProductServiceTest extends AbstractUnitTest {
 
     @Test
     public void testGetProductByBarcode_invalid() throws ApiException {
-        ProductPojo productPojo=new ProductPojo(" LeNovo123 "," thiNKPad",25000.00,1);
-        productService.add(productPojo);
+        ProductPojo productPojo=new ProductPojo("lenovo123","thinkpad",25000.00,1);
+        productDao.insert(productPojo);
 
         ProductPojo fromDb=productService.getProductByBarcode("invalidBarcode");
         Assert.assertEquals(null,fromDb);
@@ -188,8 +186,8 @@ public class ProductServiceTest extends AbstractUnitTest {
 
     @Test
     public void testCheckTd_valid() throws ApiException {
-        ProductPojo productPojo=new ProductPojo(" LeNovo123 "," thiNKPad",25000.00,1);
-        productService.add(productPojo);
+        ProductPojo productPojo=new ProductPojo("lenovo123","thinkpad",25000.00,1);
+        productDao.insert(productPojo);
 
         int number=productService.checkId(productPojo.getId());
         Assert.assertEquals(1,number);
@@ -197,8 +195,8 @@ public class ProductServiceTest extends AbstractUnitTest {
 
     @Test
     public void testCheckTd_invalid() throws ApiException {
-        ProductPojo productPojo=new ProductPojo(" LeNovo123 "," thiNKPad",25000.00,1);
-        productService.add(productPojo);
+        ProductPojo productPojo=new ProductPojo("lenovo123","thinkpad",25000.00,1);
+        productDao.insert(productPojo);
 
         int number=productService.checkId(productPojo.getId()+1);
         Assert.assertEquals(0,number);

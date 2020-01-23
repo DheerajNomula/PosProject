@@ -15,7 +15,7 @@ import java.util.List;
 public class InventoryApiController {
     
     @Autowired
-    InventoryDto inventoryDto;
+    private InventoryDto inventoryDto;
     
     @ApiOperation(value = "Adds the inventory")
     @RequestMapping(path = "/api/inventory",method = RequestMethod.POST)

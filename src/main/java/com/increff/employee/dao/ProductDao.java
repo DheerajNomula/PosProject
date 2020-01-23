@@ -17,7 +17,7 @@ public class ProductDao extends AbstractDao{
     private static String selectIdByBarcode="select p from ProductPojo p where barcode=:barcode ";
     private static String checkId="select count(p) from ProductPojo p where id=:id";
     @PersistenceContext
-    EntityManager em;
+    private EntityManager em;
 
     @Transactional
     public void insert(ProductPojo p){

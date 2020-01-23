@@ -4,9 +4,9 @@
         <barcode>laptop123</barcode>
         <quantity>10</quantity>
         <mrp>25000.0</mrp>
-        <orderId>1</orderId>
+        <orderId>2</orderId>
         <productName>thinkpad</productName>
     </order>
-    <orderId>1</orderId>
+    <orderId>2</orderId>
     <totalAmount>250000.0</totalAmount>
 </orders>

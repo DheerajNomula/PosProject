@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 public class OrderItemController {
     @Autowired
-    MakeOrderDto orderDto;
+    private MakeOrderDto orderDto;
     private boolean ordered=false;
     @RequestMapping(path="/api/order",method = RequestMethod.POST)
     @ApiOperation(value = "To Add Order")

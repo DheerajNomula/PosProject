@@ -1,5 +1,7 @@
 package com.increff.employee.service;
 
+import com.increff.employee.dao.OrderDao;
+import com.increff.employee.dao.OrderItemDao;
 import com.increff.employee.model.SalesForm;
 import com.increff.employee.pojo.OrderItemPojo;
 import com.increff.employee.pojo.OrderPojo;
@@ -18,6 +20,11 @@ public class OrderItemServiceTest extends AbstractUnitTest {
     private OrderItemService orderItemService;
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private OrderItemDao orderItemDao;
+    @Autowired
+    private OrderDao orderDao;
 
     @Test  //valid so should not throw any error
     public void testCheckOrderQuantity_valid() throws ApiException {
@@ -54,7 +61,7 @@ public class OrderItemServiceTest extends AbstractUnitTest {
     public void testAdd_valid() throws ApiException {
         OrderItemPojo orderItemPojo=new OrderItemPojo(1,1,20,200);
         orderItemService.add(orderItemPojo);
-        OrderItemPojo fromDb=orderItemService.getCheck(orderItemPojo.getId());
+        OrderItemPojo fromDb=orderItemDao.select(orderItemPojo.getId());
         Assert.assertEquals(orderItemPojo.getId(),fromDb.getId());
         Assert.assertEquals(orderItemPojo.getQuantity(),fromDb.getQuantity());
         Assert.assertEquals(orderItemPojo.getSellingPrice(),fromDb.getSellingPrice(),0.00f);
@@ -76,7 +83,7 @@ public class OrderItemServiceTest extends AbstractUnitTest {
     @Test
     public void test_getByOrderId_valid() throws ApiException {
         OrderItemPojo orderItemPojo=new OrderItemPojo(1,1,20,200);
-        orderItemService.add(orderItemPojo);
+        orderItemDao.insert(orderItemPojo);
 
         OrderItemPojo orderItemPojo1=orderItemService.getByOrderId(1).get(0);
         Assert.assertEquals(orderItemPojo.getSellingPrice(),orderItemPojo1.getSellingPrice(),0.0f);
@@ -87,7 +94,7 @@ public class OrderItemServiceTest extends AbstractUnitTest {
     @Test
     public void test_getByOrderId_invalid() throws ApiException {
         OrderItemPojo orderItemPojo=new OrderItemPojo(1,1,20,200);
-        orderItemService.add(orderItemPojo);
+        orderItemDao.insert(orderItemPojo);
         Assert.assertEquals(0,orderItemService.getByOrderId(2).size());
     }
 
@@ -108,10 +115,10 @@ public class OrderItemServiceTest extends AbstractUnitTest {
         SalesForm salesForm=new SalesForm(new Date(),c.getTime(),"lenovo","laptops");
 
         OrderPojo orderPojo=new OrderPojo(new Date());
-        orderService.add(orderPojo);
+        orderDao.insert(orderPojo);
 
         OrderItemPojo orderItemPojo=new OrderItemPojo(orderPojo.getId(),1,20,200);
-        orderItemService.add(orderItemPojo);
+        orderItemDao.insert(orderItemPojo);
 
 
         List<Object[]> sales=orderItemService.salesReport(salesForm);
@@ -127,10 +134,10 @@ public class OrderItemServiceTest extends AbstractUnitTest {
         SalesForm salesForm=new SalesForm(c.getTime(),new Date(),"lenovo","laptops");
 
         OrderPojo orderPojo=new OrderPojo(new Date());
-        orderService.add(orderPojo);
+        orderDao.insert(orderPojo);
 
         OrderItemPojo orderItemPojo=new OrderItemPojo(orderPojo.getId(),1,20,200);
-        orderItemService.add(orderItemPojo);
+        orderItemDao.insert(orderItemPojo);
 
 
         List<Object[]> sales=orderItemService.salesReport(salesForm);
@@ -143,10 +150,10 @@ public class OrderItemServiceTest extends AbstractUnitTest {
         SalesForm salesForm=new SalesForm(null,null,"lenovo","laptops");
 
         OrderPojo orderPojo=new OrderPojo(new Date());
-        orderService.add(orderPojo);
+        orderDao.insert(orderPojo);
 
         OrderItemPojo orderItemPojo=new OrderItemPojo(orderPojo.getId(),1,20,200);
-        orderItemService.add(orderItemPojo);
+        orderItemDao.insert(orderItemPojo);
 
 
         List<Object[]> sales=orderItemService.salesReport(salesForm);

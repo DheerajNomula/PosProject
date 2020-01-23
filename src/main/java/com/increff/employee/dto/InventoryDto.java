@@ -76,7 +76,7 @@ public class InventoryDto {
         return brandService.get(brandId);
     }
 
-    protected InventoryPojo convert(InventoryForm form) {
+    protected InventoryPojo convert(InventoryForm form) throws ApiException {
         InventoryPojo pojo=new InventoryPojo();
 
         pojo.setQuantity(form.getQuantity());
@@ -87,12 +87,14 @@ public class InventoryDto {
         return productService.get(productId);
     }
 
-    public int getProductId(String barcode) {
+    public int getProductId(String barcode) throws ApiException {
         ProductPojo productPojo=productService.getProductByBarcode(barcode);
+        if(productPojo==null)
+            throw new ApiException("Product with corresponding barcode doesn't exist");
         return productPojo.getId();
     }
 
-    //true - when product exists in table otherwise false
+    //true - when product exists in inventory table when add otherwise false
     //return exception when prod does not exist
     protected boolean checkProductId(InventoryPojo inventoryPojo) throws ApiException {
         if(productService.checkId(inventoryPojo.getId())==0)

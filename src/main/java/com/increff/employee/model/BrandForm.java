@@ -4,6 +4,14 @@ public class BrandForm {
     private String brandName;
     private String brandCategory;
 
+    public BrandForm() {
+    }
+
+    public BrandForm(String brandName, String brandCategory) {
+        this.brandName = brandName;
+        this.brandCategory = brandCategory;
+    }
+
     public String getBrandName() {
         return brandName;
     }
