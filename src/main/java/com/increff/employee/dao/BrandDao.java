@@ -19,8 +19,6 @@ public class BrandDao extends AbstractDao {
     private static String select_Allbrands="select distinct a.brandName from BrandPojo a";
     private static String checkNameAndCateogry="select count(*) from BrandPojo p where brandName=:brandName and brandCategory=:brandCategory";
 
-    @PersistenceContext
-    private EntityManager em;
 
     public void insert(BrandPojo p) throws ApiException {
         int id=checkBrandAndCategory(p.getBrandName(),p.getBrandCategory());

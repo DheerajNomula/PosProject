@@ -29,7 +29,12 @@
 		<h2.version>1.4.200</h2.version>
 		<javax.servlet.version>3.1.0</javax.servlet.version>
 		<commons-dbcp.version>1.4</commons-dbcp.version>
-
+		<spring-security>4.2.13.RELEASE</spring-security>
+		<javax-version>1.3.2</javax-version>
+		<commons-io-version>2.6</commons-io-version>
+		<apache-fop-version>2.3</apache-fop-version>
+		<apache-maven-plugin>3.7.1</apache-maven-plugin>
+		<maven-jacoco>0.8.5</maven-jacoco>
 		<!-- Jetty configuration -->
 		<jetty.version>9.4.21.v20190926</jetty.version>
 		<jetty.http.port>9000</jetty.http.port>
@@ -59,12 +64,12 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
-			<version>4.2.13.RELEASE</version>
+			<version>${spring-security}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
-			<version>4.2.13.RELEASE</version>
+			<version>${spring-security}</version>
 		</dependency>
 
 
@@ -97,7 +102,7 @@
 		<dependency>
 			<groupId>javax.annotation</groupId>
 			<artifactId>javax.annotation-api</artifactId>
-			<version>1.3.2</version>
+			<version>${javax-version}</version>
 		</dependency>
 
 		<!-- THYMELEAF -->
@@ -130,13 +135,13 @@
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
-			<version>1.4</version>
+			<version>${commons-dbcp.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.6</version>
+			<version>${commons-io-version}</version>
 		</dependency>
 
 
@@ -183,14 +188,10 @@
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>fop</artifactId>
-			<version>2.3</version>
+			<version>${apache-fop-version}</version>
 		</dependency>
-		<!-- For obj to xml-->
-		<dependency>
-			<groupId>com.thoughtworks.xstream</groupId>
-			<artifactId>xstream</artifactId>
-			<version>1.4.5</version>
-		</dependency>
+
+
 	</dependencies>
 
 	<build>
@@ -222,13 +223,13 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
-				<version>3.7.1</version>
+				<version>${apache-maven-plugin}</version>
 			</plugin>
 
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.5</version>
+				<version>${maven-jacoco}</version>
 				<executions>
 					<execution>
 						<goals>

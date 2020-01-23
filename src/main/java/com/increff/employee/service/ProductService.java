@@ -6,8 +6,8 @@ import com.increff.employee.util.StringUtil;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -17,7 +17,7 @@ public class ProductService {
     private ProductDao productDao;
 
 
-    @Transactional(rollbackOn = ApiException.class)
+    @Transactional(rollbackFor = ApiException.class)
     public void add(ProductPojo productPojo) throws ApiException {
         normalize(productPojo);
         check(productPojo);
@@ -26,7 +26,7 @@ public class ProductService {
         productDao.insert(productPojo);
     }
 
-    protected void check(ProductPojo productPojo) throws ApiException {
+    protected static void check(ProductPojo productPojo) throws ApiException {
         if (StringUtil.isEmpty(productPojo.getProductName())) {
             throw new ApiException("Product Name cannot be empty");
         }
@@ -35,24 +35,24 @@ public class ProductService {
         }
         if(productPojo.getMrp()<=0)
             throw new ApiException("Enter valid Mrp");
-        //if(checkBrand(productPojo)){
-
     }
 
-    protected void normalize(ProductPojo productPojo) {
+    protected static void normalize(ProductPojo productPojo) {
         productPojo.setProductName(StringUtil.toLowerCase(productPojo.getProductName()));
         productPojo.setBarcode(StringUtil.toLowerCase(productPojo.getBarcode()));
     }
 
-    @Transactional
+    @Transactional(rollbackFor = ApiException.class,readOnly = true)
     public ProductPojo get(int id) throws ApiException {
         return getCheck(id);
     }
+
+    @Transactional(readOnly = true)
     public List<ProductPojo> getAll(){
         return productDao.selectAll();
     }
 
-    @Transactional(rollbackOn = ApiException.class)
+    @Transactional(rollbackFor = ApiException.class)
     public void update(int id,ProductPojo productPojo) throws ApiException{
         normalize(productPojo);
         check(productPojo);
@@ -68,7 +68,7 @@ public class ProductService {
         newProductPojo.setMrp(productPojo.getMrp());
     }
 
-    @Transactional(rollbackOn = ApiException.class)
+    @Transactional(rollbackFor = ApiException.class,readOnly = true)
     protected ProductPojo getCheck(int id) throws ApiException {
         ProductPojo productPojo= productDao.select(id);
         if(productPojo==null){
@@ -77,13 +77,13 @@ public class ProductService {
         return productPojo;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public ProductPojo getProductByBarcode(String barcode) {
         return productDao.selectProductByBarcode(barcode);
     }
 
     //return 1 if id exists 0 if it doesn't
-    @Transactional
+    @Transactional(readOnly = true)
     public int checkId(int id) {
         return productDao.countId(id);
     }

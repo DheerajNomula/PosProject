@@ -3,11 +3,9 @@ package com.increff.employee.service;
 import com.increff.employee.dao.BrandDao;
 import com.increff.employee.pojo.BrandPojo;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 
@@ -36,13 +34,13 @@ public class BrandServiceTest extends AbstractUnitTest{
     @Test(expected = ApiException.class)
     public void testCheckIfEmpty_Name() throws ApiException {
         BrandPojo brandPojo=new BrandPojo("","abcd");
-        brandService.checkIfEmpty(brandPojo.getBrandName(),brandPojo.getBrandCategory());
+        brandService.checkBrandNameAndCategory(brandPojo.getBrandName(),brandPojo.getBrandCategory());
     }
 
     @Test(expected = ApiException.class)
     public void testCheckIfEmpty_Category() throws ApiException {
         BrandPojo brandPojo=new BrandPojo("abcd","");
-        brandService.checkIfEmpty(brandPojo.getBrandName(),brandPojo.getBrandCategory());
+        brandService.checkBrandNameAndCategory(brandPojo.getBrandName(),brandPojo.getBrandCategory());
     }
 
 

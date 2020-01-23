@@ -1,43 +1,41 @@
 package com.increff.employee.service;
-import com.google.protobuf.Api;
 import com.increff.employee.dao.InventoryDao;
-import com.increff.employee.dto.InventoryDto;
-import com.increff.employee.dto.ProductDto;
-import com.increff.employee.model.InventoryData;
-import com.increff.employee.pojo.BrandPojo;
 import com.increff.employee.pojo.InventoryPojo;
-import com.increff.employee.pojo.ProductPojo;
-import com.increff.employee.util.StringUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
-import javax.transaction.Transactional;
 @Service
 public class InventoryService {
     @Autowired
     private InventoryDao dao;
 
 
-    @Transactional(rollbackOn = ApiException.class)
+    @Transactional(rollbackFor = ApiException.class)
     public void add(InventoryPojo p) throws ApiException {
             checkQuantity(p);
             dao.insert(p);
     }
 
-    protected void checkQuantity(InventoryPojo p) throws ApiException {
+    protected static void checkQuantity(InventoryPojo p) throws ApiException {
         if(p.getQuantity()<0)
             p.setQuantity(0);
     }
+
+    @Transactional(rollbackFor = ApiException.class,readOnly = true)
     public InventoryPojo get(int id) throws ApiException {
         return getCheck(id);
     }
 
+    @Transactional(readOnly = true)
     public List<InventoryPojo> getAll(){
         return dao.selectAll();
     }
 
-    @Transactional
+    @Transactional(rollbackFor = ApiException.class)
     public void update(int id,InventoryPojo p) throws ApiException {
         if(id!=p.getId())throw new ApiException("Id's should match in form and selected");
         checkQuantity(p);
@@ -48,7 +46,7 @@ public class InventoryService {
         dao.update(newInventoryPojo);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = ApiException.class,readOnly = true)
     public InventoryPojo getCheck(int id) throws ApiException {
         InventoryPojo p=dao.select(id);
         ///checkProductId(id);

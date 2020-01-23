@@ -1,15 +1,12 @@
 package com.increff.employee.service;
 import com.increff.employee.dao.OrderItemDao;
 import com.increff.employee.model.SalesForm;
-import com.increff.employee.pojo.OrderPojo;
 import com.increff.employee.pojo.OrderItemPojo;
-import com.increff.employee.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
-import java.text.DateFormat;
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 
@@ -18,29 +15,29 @@ public class OrderItemService {
     @Autowired
     private OrderItemDao orderItemDao;
 
-    @Transactional(rollbackOn = ApiException.class)
+    @Transactional(rollbackFor = ApiException.class)
     public void add(OrderItemPojo orderItemPojo) throws ApiException {
         checkOrderQuantity(orderItemPojo.getQuantity());
         checkSellingPrice(orderItemPojo.getSellingPrice());
         orderItemDao.insert(orderItemPojo);
     }
 
-    protected void checkOrderQuantity(int quantity) throws ApiException {
+    protected static void checkOrderQuantity(int quantity) throws ApiException {
         if(quantity<=0)
             throw new ApiException("Order Quantity cannot be negative");
     }
 
-    protected void checkSellingPrice(double price) throws ApiException {
+    protected static void checkSellingPrice(double price) throws ApiException {
         if(price<=0)
             throw new ApiException("Selling Price cannot be negative");
     }
 
-
+    @Transactional(readOnly = true)
     public List<OrderItemPojo> getByOrderId(int id) {
         return orderItemDao.getByOrderId(id);
     }
 
-
+    @Transactional(rollbackFor = ApiException.class)
     public List<Object[]> salesReport(SalesForm salesForm) throws ApiException {
         if(salesForm.getEndDate()==null)
             salesForm.setEndDate(new Date());
