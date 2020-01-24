@@ -95,7 +95,7 @@ public class InventoryDto {
     }
 
     //true - when product exists in inventory table when add otherwise false
-    //return exception when prod does not exist
+    //return exception when prod does not exist... in product table and inventory table
     protected boolean checkProductId(InventoryPojo inventoryPojo) throws ApiException {
         if(productService.checkId(inventoryPojo.getId())==0)
             throw new ApiException("Product Id does not exists in product table");

@@ -21,12 +21,10 @@ import java.util.List;
 public class OrderItemController {
     @Autowired
     private MakeOrderDto orderDto;
-    private boolean ordered=false;
     @RequestMapping(path="/api/order",method = RequestMethod.POST)
     @ApiOperation(value = "To Add Order")
     public void add(@RequestBody List<OrderForm> orderForms) throws ApiException {
         orderDto.add(orderForms);
-        ordered=true;
     }
 
     @RequestMapping(path="/api/order/{barcode}",method = RequestMethod.GET)
@@ -45,24 +43,10 @@ public class OrderItemController {
     @ApiOperation(value = "Generates the pdf")
     @RequestMapping(value="/api/order/invoice",method = RequestMethod.GET)
     public void getFile(HttpServletResponse response) throws IOException {
-        /*System.out.println("hi");
-        try {
-            DefaultResourceLoader loader = new DefaultResourceLoader();//path relative from resources
-            InputStream is = loader.getResource("classpath:com/increff/employee/pdfs/order.pdf").getInputStream();
-            IOUtils.copy(is, response.getOutputStream());
-            response.setContentType("application/pdf");
-            response.setHeader("Content-Disposition", "attachment; filename=invoice.pdf");
-            response.flushBuffer();
-        } catch (IOException ex) {
-            throw new RuntimeException("IOError writing file to output stream"+ex);
-        }
-        */
 
         String pdfFileName = "invoice.pdf";
         //String contextPath = getServletContext().getRealPath(File.separator);
-        String fileName="temp.pdf";
-        if(ordered)
-        fileName="src/main/resources/com/increff/employee/pdfs/order.pdf";
+        String fileName="src/main/resources/com/increff/employee/pdfs/order.pdf";
 
         File pdfFile=new File(fileName);
 
@@ -76,7 +60,6 @@ public class OrderItemController {
         while ((bytes = fileInputStream.read()) != -1) {
             responseOutputStream.write(bytes);
         }
-        ordered=false;
         responseOutputStream.flush();
 
     }

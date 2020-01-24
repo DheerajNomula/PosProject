@@ -191,16 +191,26 @@ function showAllCategories(brand){
     }
 }
 ///////////////////////////////////////
-function correctMrp(newMrp){
-    /*console.log(newMrp);
-    console.log(newMrp.match( re ));
-        var re = /^[+]?[0-9]+\.[0-9]+$/;
-        if(newMrp.match(re) ){
-            alert('Enter valid mrp ');
+function correctMrp(val){
+    //console.log(newMrp);
+    //console.log(newMrp.match( re ));
+        /*var re = /^[+]?[0-9]+\.[0-9]+$/;
+        if(!newMrp.match(re)){
+            alert('Enter valid mrp in front ');
             return false;
-    }*/
+         }
+        return true;*/
+        var floatRegex = /^[+]?[0-9]+\.?[0-9]+$/;
+            if (!floatRegex.test(val)){
+                alert('Please enter correct mrp');
+                return false;
+                }
 
-        return true;
+            val = parseFloat(val);
+            if (isNaN(val)){
+                alert('Please enter correct mrp');
+                return false;}
+            return true;
 }
 function updateProduct(event){
     var id=$('#product-edit-form input[name=updateId]').val();
@@ -266,29 +276,33 @@ function readFileDataCallback(results){
 }
 function uploadRows(){
 	updateUploadDialog();
+	console.log("start");
 	console.log(processCount);
 	if(processCount==fileData.length){
     		return;
-    	}
+    }
 
 	var row = fileData[processCount];
 	processCount++;
 	//createDictionary();
 	console.log(row);
+	console.log(fileData.length);
 	var error=0;
 	if(!dictionary.hasOwnProperty(row["brandName"])){
 	    row.error="brand name does not exists";
         error++;
 	}
-	if(!dictionary[row["brandName"]].hasOwnProperty(row["brandCategory"])){
+	if(error==0 && !dictionary[row["brandName"]].hasOwnProperty(row["brandCategory"])){
     	    row.error="brand category does not exist";
-
+            error++;
     }
-    //console.log(row);
-    if(error){
+
+    if(error!=0){
         errorData.push(row);
         uploadRows();
+        return;
     }
+
 //	console.log(row["brandName"],row["brandCategory"],dictionary[row["brandName"]][row["brandCategory"]]);
 	row["brandId"]=dictionary[row["brandName"]][row["brandCategory"]];
 //	console.log(row,typeof(row),typeof(dictionary[row["brandName"]][row["brandCategory"]]));

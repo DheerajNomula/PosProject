@@ -15,6 +15,8 @@ import org.springframework.stereotype.Repository;
 public class InventoryDao extends AbstractDao{
     private static String select_id="select p from InventoryPojo p where id=:id";
     private static String select_all="select p from InventoryPojo p";
+    private static String getBrandAndQuantity="select b.brandName,b.brandCategory,sum(i.quantity) from BrandPojo b,ProductPojo p,InventoryPojo i where b.id=p.brandId and " +
+            "p.id=i.id group by b.id";
 
     @Transactional
     public void insert(InventoryPojo p){
@@ -36,4 +38,8 @@ public class InventoryDao extends AbstractDao{
 
     }
 
+    public List<Object[]> InventoryReport(){
+        Query query=em.createNativeQuery(getBrandAndQuantity);
+        return query.getResultList();
+    }
 }

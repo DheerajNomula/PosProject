@@ -199,8 +199,17 @@ function correctMrp(newMrp){
             alert('Enter valid mrp ');
             return false;
         }*/
+     var floatRegex = /^[+]?[0-9]+\.?[0-9]+$/;
+                 if (!floatRegex.test(val)){
+                     alert('Please enter correct mrp');
+                     return false;
+                     }
 
-        return true;
+                 val = parseFloat(val);
+                 if (isNaN(val)){
+                     alert('Please enter correct mrp');
+                     return false;}
+                 return true;
 }
 function disableButtons(){
     $("#add-order").attr("disabled", true);

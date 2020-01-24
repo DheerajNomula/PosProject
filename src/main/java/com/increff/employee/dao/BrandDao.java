@@ -12,14 +12,14 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
-@Transactional
+
 public class BrandDao extends AbstractDao {
     private static String select_id = "select p from BrandPojo p where id=:id";
     private static String select_all = "select p from BrandPojo p";
     private static String select_Allbrands="select distinct a.brandName from BrandPojo a";
     private static String checkNameAndCateogry="select count(*) from BrandPojo p where brandName=:brandName and brandCategory=:brandCategory";
 
-
+    @Transactional
     public void insert(BrandPojo p) throws ApiException {
         int id=checkBrandAndCategory(p.getBrandName(),p.getBrandCategory());
         if(id!=0)

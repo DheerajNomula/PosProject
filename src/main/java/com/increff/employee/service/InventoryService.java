@@ -56,4 +56,7 @@ public class InventoryService {
         return p;
     }
 
+    public List<Object[]> getInventoryReportData(){
+        return dao.InventoryReport();
+    }
 }

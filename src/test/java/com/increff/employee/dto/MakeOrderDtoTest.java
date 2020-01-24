@@ -1,14 +1,18 @@
 package com.increff.employee.dto;
 
+import com.increff.employee.dao.OrderDao;
+import com.increff.employee.model.OrderData;
 import com.increff.employee.model.OrderForm;
 import com.increff.employee.pojo.*;
 import com.increff.employee.service.*;
+import org.hibernate.criterion.Order;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MakeOrderDtoTest extends AbstractUnitTest {
@@ -103,5 +107,69 @@ public class MakeOrderDtoTest extends AbstractUnitTest {
         makeOrderDto.add(list);
     }
 
+    @Test(expected = ApiException.class)
+    public void testAdd_duplicate_barcode_oneNegative() throws ApiException {
+        OrderForm orderForm=new OrderForm("laptop123",20);
+        OrderForm orderForm1=new OrderForm("laptop123",-10);
+        List<OrderForm> list=new ArrayList<>();
+        list.add(orderForm);list.add(orderForm);
+        makeOrderDto.add(list);
 
+        List<OrderPojo>  allOrders=orderService.getAll();
+        List<OrderItemPojo> orderItems= orderItemService.getByOrderId(allOrders.get(0).getId());
+        Assert.assertEquals(1,orderItems.size());
+        Assert.assertEquals(10,orderItems.get(0).getQuantity());
+    }
+
+    @Test(expected = ApiException.class)
+    public void testAdd_duplicate_barcode_oneNegative1() throws ApiException {
+        OrderForm orderForm=new OrderForm("laptop123",-20);
+        OrderForm orderForm1=new OrderForm("laptop123",10);
+        List<OrderForm> list=new ArrayList<>();
+        list.add(orderForm);list.add(orderForm);
+        makeOrderDto.add(list);
+
+        List<OrderPojo>  allOrders=orderService.getAll();
+        List<OrderItemPojo> orderItems= orderItemService.getByOrderId(allOrders.get(0).getId());
+        Assert.assertEquals(1,orderItems.size());
+        Assert.assertEquals(0,orderItems.get(0).getQuantity());
+    }
+
+    @Test
+    public void test_checkForDuplicates(){
+        List<OrderForm> list=new ArrayList<>();
+        for(int i=0;i<5;i++){
+            list.add(new OrderForm("laptop123",10));
+        }
+        list=MakeOrderDto.checkForDuplicates(list);
+        Assert.assertEquals(1,list.size());
+        Assert.assertEquals("laptop123",list.get(0).getBarcode());
+        Assert.assertEquals(50,list.get(0).getQuantity());
+    }
+
+    @Test
+    public void test_get_valid() throws ApiException {
+        OrderData orderData=makeOrderDto.get("laptop123");
+        Assert.assertEquals("thinkpad",orderData.getProductName());
+        Assert.assertEquals(20,orderData.getQuantity());
+    }
+
+    @Test
+    public void test_getAll_zeroSize() throws ApiException {
+        Assert.assertEquals(0,makeOrderDto.getAll().size());
+    }
+
+    @Test
+    public void test_getAll_valid() throws ApiException {
+        for(int i=0;i<5;i++){
+            ProductPojo productPojo=new ProductPojo("barcode "+i,"product "+i,i+100,i);
+            productService.add(productPojo);
+            OrderPojo order=new OrderPojo(new Date());
+            orderService.add(order);
+            OrderItemPojo orderItemPojo=new OrderItemPojo(order.getId(),productPojo.getId(),10,100+i);
+            orderItemService.add(orderItemPojo);
+        }
+        List<OrderData> list=makeOrderDto.getAll();
+        Assert.assertEquals(5,list.size());
+    }
 }

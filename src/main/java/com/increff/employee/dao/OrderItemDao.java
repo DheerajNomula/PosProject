@@ -14,9 +14,7 @@ public class OrderItemDao extends AbstractDao{
     private static String select_id="select p from OrderItemPojo p where id=:id";
     private static String select_all="select p from OrderItemPojo p";
     private static String selectByOrderId="select p from OrderItemPojo p where p.orderId=:id";
-    private static String getProductBtwDates ="select o.productId,sum(o.quantity),sum(o.sellingPrice) from OrderItemPojo o  where o.orderId in " +
-            "(select p.id from OrderPojo p where p.date between :startDate and :endDate) group by o.productId";
-
+    private static String getProductBtwDates ="select b.brandName,b.brandCategory,sum(o.quantity),sum(o.sellingPrice) from OrderItemPojo o,BrandPojo b,ProductPojo p  where p.brandId=b.id and p.id=o.productId and o.orderId in (select ord.id from OrderPojo ord where ord.date between :startDate and :endDate) group by b.id";
 
     @Transactional
     public void insert(OrderItemPojo orderItemPojo){
@@ -43,11 +41,32 @@ public class OrderItemDao extends AbstractDao{
         return query.getResultList();
     }
 
-    public List<Object[]> salesReport(SalesForm salesForm) {
-        Query query=em.createNativeQuery(getProductBtwDates);
+    protected List<Object[]> executeSalesQuery(String salesquery,SalesForm salesForm){
+        Query query=em.createNativeQuery(salesquery);
         query.setParameter("startDate",salesForm.getStartDate());
         query.setParameter("endDate",salesForm.getEndDate());
-        List<Object[]> list=query.getResultList();
-        return list;
+        return query.getResultList();
+    }
+    public List<Object[]>  salesReport(SalesForm salesForm) {
+
+        if(salesForm.getBrandName().length()==0)
+        {
+            if(salesForm.getBrandCategory().length()==0)
+            return executeSalesQuery(getProductBtwDates,salesForm);
+            else {
+                String query=getProductBtwDates + " having b.brandCategory='" +salesForm.getBrandCategory()+"'";
+                return executeSalesQuery(query,salesForm);
+            }
+        }
+        else {
+            //brand given
+            String query=getProductBtwDates+" having b.brandName='"+salesForm.getBrandName()+"'";
+            if(salesForm.getBrandCategory().length()==0)
+                return executeSalesQuery(query,salesForm);
+            else {
+                query += " and b.brandCategory='" +salesForm.getBrandCategory()+"'";
+                return executeSalesQuery(query,salesForm);
+            }
+        }
     }
 }

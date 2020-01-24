@@ -10,8 +10,10 @@ public class OrderItemPojo {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
-    //        Date dateobj = new Date(Calendar.getInstance().getTime().getTime());
-
+    private int orderId;
+    private int productId;
+    private int quantity;
+    private double sellingPrice;
     public OrderItemPojo() {
     }
 
@@ -21,12 +23,6 @@ public class OrderItemPojo {
         this.quantity = quantity;
         this.sellingPrice = sellingPrice;
     }
-
-    private int orderId;
-    private int productId;
-    private int quantity;
-    private double sellingPrice;
-
     public int getId() {
         return id;
     }

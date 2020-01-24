@@ -44,8 +44,7 @@ public class MakeOrderDto {
 
     @Transactional(rollbackOn = ApiException.class)
     public void add(List<OrderForm> orderForms) throws ApiException {
-        //int orderId=orderService.getLastOrder();//last order id +1 assuming no deletion of orders autowired so it will work
-        //Date dateobj = new Date(Calendar.getInstance().getTime().getTime());
+
         Date dateobj=new Date();
         orderForms=checkForDuplicates(orderForms);
         List<OrderItemPojo>orderItemPojos=convertToOrderitems(orderForms);// no errros
@@ -67,7 +66,7 @@ public class MakeOrderDto {
         generateXML(orderForms,orderPojo);
     }
 
-    private List<OrderForm> checkForDuplicates(List<OrderForm> orderForms) {
+    protected static List<OrderForm> checkForDuplicates(List<OrderForm> orderForms) {
         Map<String,Integer> map=new HashMap<>();
         List<OrderForm> newList=new ArrayList<>();
         for(OrderForm orderForm:orderForms){
@@ -113,7 +112,7 @@ public class MakeOrderDto {
         generatePdf();
     }
 
-    protected void generatePdf() throws ApiException {
+    protected static void generatePdf() throws ApiException {
         try {
             File xmlfile = new File("src/main/resources/com/increff/employee/orders.xml");
             File xsltfile = new File("src/main/resources/com/increff/employee/orderStyle.xsl");
@@ -171,7 +170,6 @@ public class MakeOrderDto {
         if(orderForm.getQuantity()<0)
             orderForm.setQuantity(0);
         orderItemPojo.setQuantity(orderForm.getQuantity());
-        //orderItemPojo.setOrderId(orderId);
 
         ProductPojo productPojo=productService.getProductByBarcode(orderForm.getBarcode());
         if(productPojo==null)
@@ -195,7 +193,7 @@ public class MakeOrderDto {
     public OrderData get(String barcode) throws ApiException {
         return convert(barcode);//orderItemPOjo to orderdata
     }
-    protected OrderData addProductToOrderData(ProductPojo productPojo){
+    protected static OrderData addProductToOrderData(ProductPojo productPojo){
         OrderData orderData=new OrderData();
         orderData.setMrp(productPojo.getMrp());
         orderData.setBarcode(productPojo.getBarcode());
@@ -231,5 +229,6 @@ public class MakeOrderDto {
         }
         return orderDatas;
     }
+
 
 }

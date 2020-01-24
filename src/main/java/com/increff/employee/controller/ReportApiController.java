@@ -51,13 +51,13 @@ public class ReportApiController {
     public List<SalesData> generateSales(@RequestBody SalesForm salesForm) throws ApiException {
         //System.out.println(salesForm);
 
-        return reportsDto.getSales(salesForm);
+        return reportsDto.getSalesData(salesForm);
     }
 
     @ApiOperation(value = "Generates the inventory Report")
     @RequestMapping(path = "/api/reports/inventory", method = RequestMethod.GET)
     public List<InventoryData> generateInventory() throws ApiException {
-        return reportsDto.getInventory();
+        return reportsDto.getInventoryData();
     }
 
     @ApiOperation(value = "Generates the brand Report")
