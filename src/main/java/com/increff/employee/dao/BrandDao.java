@@ -27,7 +27,6 @@ public class BrandDao extends AbstractDao {
         em.persist(p);
     }
 
-    //No need of transactional for select query
     public BrandPojo select(int id) {
 
         TypedQuery<BrandPojo> query = getQuery(select_id, BrandPojo.class);
@@ -57,7 +56,4 @@ public class BrandDao extends AbstractDao {
         return num;
     }
 
-    public int checkId(int brandId) {
-        return 0;
-    }
 }

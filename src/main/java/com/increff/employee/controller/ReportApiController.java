@@ -44,25 +44,21 @@ public class ReportApiController {
 
     @Autowired
     private ReportsDto reportsDto;
-    private static final String brandXslPath ="./src/main/resources/com/increff/employee/orderStyle.xsl" ;
-
     @ApiOperation(value = "Generates the sales Report")
     @RequestMapping(path = "/api/reports/sales", method = RequestMethod.POST)
     public List<SalesData> generateSales(@RequestBody SalesForm salesForm) throws ApiException {
-        //System.out.println(salesForm);
-
         return reportsDto.getSalesData(salesForm);
     }
 
     @ApiOperation(value = "Generates the inventory Report")
     @RequestMapping(path = "/api/reports/inventory", method = RequestMethod.GET)
-    public List<InventoryData> generateInventory() throws ApiException {
+    public List<InventoryData> generateInventory() {
         return reportsDto.getInventoryData();
     }
 
     @ApiOperation(value = "Generates the brand Report")
     @RequestMapping(path = "/api/reports/brand", method = RequestMethod.GET)
-    public List<BrandPojo> generateBrand() throws ApiException {
+    public List<BrandPojo> generateBrand()  {
         return reportsDto.getBrand();
     }
 

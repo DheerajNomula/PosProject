@@ -100,11 +100,13 @@ public class MakeOrderDto {
         orders.setTotalAmount(totalAmount);//src/main/resources/com/increff/employee
         File file = new File("src/main/resources/com/increff/employee/orders.xml");
         JAXBContext jaxbContext = null;
+
         try {
             jaxbContext = JAXBContext.newInstance(Orders.class);
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             jaxbMarshaller.marshal(orders, file);
+
         } catch (Exception e) {
             throw new ApiException("Error while converting into pdf "+e);
         }

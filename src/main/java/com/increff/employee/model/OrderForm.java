@@ -1,9 +1,6 @@
 package com.increff.employee.model;
 
-import java.util.Date;
-
 public class OrderForm {
-    // barcode,date,quantity,mrp of each
     private String barcode;
     private int quantity;
 

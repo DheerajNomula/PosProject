@@ -25,14 +25,13 @@ public class ReportsDto {
     public List<SalesData> getSalesData(SalesForm salesForm) throws ApiException {
         List<Object[]> listAns=orderItemService.salesReport(salesForm);
         List<SalesData> list=new ArrayList<>();
-        for(Object[] obj:listAns) { // 0-brandName , 1-brandCategory, 2-qty ,3-selling price
+        for(Object[] obj:listAns) { // 0-brandCategory, 1-qty ,2-selling price
             SalesData salesData = new SalesData();
-            salesData.setBrandName(obj[0].toString());
-            salesData.setBrandCategory(obj[1].toString());
-            Number number = (Number) obj[2];
+            salesData.setBrandCategory(obj[0].toString());
+            Number number = (Number) obj[1];
             salesData.setQuantity(number.intValue());
 
-            salesData.setRevenue((Double)obj[3]);
+            salesData.setRevenue((Double)obj[2]);
             list.add(salesData);
         }
         return list;

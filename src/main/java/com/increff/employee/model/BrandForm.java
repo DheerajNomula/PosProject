@@ -28,11 +28,4 @@ public class BrandForm {
         this.brandCategory = brandCategory;
     }
 
-    @Override
-    public String toString() {
-        return "BrandForm{" +
-                "brandName='" + brandName + '\'' +
-                ", brandCategory='" + brandCategory + '\'' +
-                '}';
-    }
 }

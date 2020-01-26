@@ -63,14 +63,4 @@ public class ProductPojo {
         this.mrp = mrp;
     }
 
-    @Override
-    public String toString() {
-        return "ProductPojo{" +
-                "id=" + id +
-                ", barcode='" + barcode + '\'' +
-                ", productName='" + productName + '\'' +
-                ", mrp=" + mrp +
-                ", brandId=" + brandId +
-                '}';
-    }
 }

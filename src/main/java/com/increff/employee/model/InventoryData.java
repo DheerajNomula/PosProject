@@ -40,13 +40,4 @@ public class InventoryData extends InventoryForm {
         this.productName = productName;
     }
 
-    @Override
-    public String toString() {
-        return "InventoryData{" +
-                "productName='" + productName + '\'' +
-                ", brandCategory='" + brandCategory + '\'' +
-                ", brandName='" + brandName + '\'' +
-                ", id=" + id +
-                '}';
-    }
 }

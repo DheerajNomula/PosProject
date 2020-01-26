@@ -14,13 +14,13 @@ public class InventoryService {
     private InventoryDao dao;
 
 
-    @Transactional(rollbackFor = ApiException.class)
-    public void add(InventoryPojo p) throws ApiException {
+    @Transactional
+    public void add(InventoryPojo p) {
             checkQuantity(p);
             dao.insert(p);
     }
 
-    protected static void checkQuantity(InventoryPojo p) throws ApiException {
+    protected static void checkQuantity(InventoryPojo p) {
         if(p.getQuantity()<0)
             p.setQuantity(0);
     }
@@ -49,7 +49,6 @@ public class InventoryService {
     @Transactional(rollbackFor = ApiException.class,readOnly = true)
     public InventoryPojo getCheck(int id) throws ApiException {
         InventoryPojo p=dao.select(id);
-        ///checkProductId(id);
         if(p==null){
             throw new ApiException("Inventory with given Id does not exist, id: "+id);
         }

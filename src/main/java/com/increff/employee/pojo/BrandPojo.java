@@ -49,13 +49,4 @@ public class BrandPojo {
 		this.brandCategory = brandCategory;
 	}
 
-	@Override
-	public String toString() {
-		return "BrandPojo{" +
-				"id=" + id +
-				", brandName='" + brandName + '\'' +
-				", brandCategory='" + brandCategory + '\'' +
-				'}';
-	}
-
 }

@@ -49,13 +49,4 @@ public class ProductForm {
         this.mrp = mrp;
     }
 
-    @Override
-    public String toString() {
-        return "ProductForm{" +
-                "barcode='" + barcode + '\'' +
-                ", brandId=" + brandId +
-                ", productName='" + productName + '\'' +
-                ", mrp=" + mrp +
-                '}';
-    }
 }

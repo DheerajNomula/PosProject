@@ -11,8 +11,6 @@ import java.util.List;
 public class OrderDao extends AbstractDao{
     private static String select_id="select p from OrderPojo p where id=:id";
     private static String select_all="select p from OrderPojo p";
-    private static String getIdByDate="select p.id from OrderPojo p where date=:date";
-    private static String ordersBetweenDates="select p.id from OrderPojo p where p.date between :startDate and :endDate";
 
     @Transactional
     public OrderPojo insert(OrderPojo orderPojo){

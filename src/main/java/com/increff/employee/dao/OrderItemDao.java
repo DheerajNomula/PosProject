@@ -14,7 +14,7 @@ public class OrderItemDao extends AbstractDao{
     private static String select_id="select p from OrderItemPojo p where id=:id";
     private static String select_all="select p from OrderItemPojo p";
     private static String selectByOrderId="select p from OrderItemPojo p where p.orderId=:id";
-    private static String getProductBtwDates ="select b.brandName,b.brandCategory,sum(o.quantity),sum(o.sellingPrice) from OrderItemPojo o,BrandPojo b,ProductPojo p  where p.brandId=b.id and p.id=o.productId and o.orderId in (select ord.id from OrderPojo ord where ord.date between :startDate and :endDate) group by b.id";
+    private static String getProductBtwDates ="select b.brandCategory,sum(o.quantity),sum(o.sellingPrice) from OrderItemPojo o,BrandPojo b,ProductPojo p  where p.brandId=b.id and p.id=o.productId and o.orderId in (select ord.id from OrderPojo ord where ord.date between :startDate and :endDate) ";
 
     @Transactional
     public void insert(OrderItemPojo orderItemPojo){
@@ -51,16 +51,19 @@ public class OrderItemDao extends AbstractDao{
 
         if(salesForm.getBrandName().length()==0)
         {
-            if(salesForm.getBrandCategory().length()==0)
-            return executeSalesQuery(getProductBtwDates,salesForm);
+            String query=getProductBtwDates+"group by b.brandCategory";
+            if(salesForm.getBrandCategory().length()==0) {
+
+                return executeSalesQuery(query, salesForm);
+            }
             else {
-                String query=getProductBtwDates + " having b.brandCategory='" +salesForm.getBrandCategory()+"'";
+                query+=" having b.brandCategory='" +salesForm.getBrandCategory()+"'";
                 return executeSalesQuery(query,salesForm);
             }
         }
         else {
             //brand given
-            String query=getProductBtwDates+" having b.brandName='"+salesForm.getBrandName()+"'";
+            String query=getProductBtwDates+"group by b.id having b.brandName='"+salesForm.getBrandName()+"'";
             if(salesForm.getBrandCategory().length()==0)
                 return executeSalesQuery(query,salesForm);
             else {

@@ -50,13 +50,4 @@ public class SalesForm {
         this.brandCategory = brandCategory;
     }
 
-    @Override
-    public String toString() {
-        return "SalesForm{" +
-                "startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", brandName='" + brandName + '\'' +
-                ", brandCategory='" + brandCategory + '\'' +
-                '}';
-    }
 }

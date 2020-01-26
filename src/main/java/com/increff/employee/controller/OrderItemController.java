@@ -45,7 +45,6 @@ public class OrderItemController {
     public void getFile(HttpServletResponse response) throws IOException {
 
         String pdfFileName = "invoice.pdf";
-        //String contextPath = getServletContext().getRealPath(File.separator);
         String fileName="src/main/resources/com/increff/employee/pdfs/order.pdf";
 
         File pdfFile=new File(fileName);

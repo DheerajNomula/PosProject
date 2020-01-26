@@ -63,14 +63,4 @@ public class OrderItemPojo {
         this.sellingPrice = sellingPrice;
     }
 
-    @Override
-    public String toString() {
-        return "OrderItemPojo{" +
-                "id=" + id +
-                ", orderId=" + orderId +
-                ", productId=" + productId +
-                ", quantity=" + quantity +
-                ", sellingPrice=" + sellingPrice +
-                '}';
-    }
 }
