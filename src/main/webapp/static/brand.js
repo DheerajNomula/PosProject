@@ -75,7 +75,6 @@ function displayBrand(data){
 
 
 function updateBrand(event){
-    //$('#edit-employee-modal').modal('toggle'); see why?
     var id=$('#brand-edit-form input[name=updateId]').val();
     var url=getBrandUrl()+'/'+id;
 

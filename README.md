@@ -1,1 +1,1 @@
-# employee-spring
+# Point Of Sale Application
