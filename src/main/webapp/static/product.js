@@ -144,8 +144,8 @@ function showAllCategoriesInEdit(brand,freshUpdate){
 }
 ///////////////////////////////////////////////////////////////////
 function displayBrand(){
-    $("product-form").trigger("reset");
-    $("product-edit-form").trigger("reset");
+    $("#product-form").trigger("reset");
+    $("#product-edit-form").trigger("reset");
     var baseUrl=getBaseUrl();
     var url=baseUrl+'/api/brand/';
     $.ajax({

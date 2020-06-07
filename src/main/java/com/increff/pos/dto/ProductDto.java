@@ -89,7 +89,7 @@ public class ProductDto {
         }
     }
 
-    protected BrandPojo getBrand(int brandId) throws ApiException {
+    private BrandPojo getBrand(int brandId) throws ApiException {
         BrandPojo brandPojo = brandService.getCheck(brandId);
         return brandPojo;
     }

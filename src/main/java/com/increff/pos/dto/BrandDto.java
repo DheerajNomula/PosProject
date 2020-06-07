@@ -42,9 +42,9 @@ public class BrandDto {
     }
 
     public List<BrandData> getAll() {
-        List<BrandPojo> listOfBrandService = brandService.getAll();
+        List<BrandPojo> listOfBrandPojo = brandService.getAll();
         List<BrandData> listOfBrandData = new ArrayList<BrandData>();
-        for (BrandPojo p : listOfBrandService) {
+        for (BrandPojo p : listOfBrandPojo) {
             listOfBrandData.add(convert(p));
         }
         return listOfBrandData;

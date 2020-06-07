@@ -18,10 +18,11 @@ public class BrandDao extends AbstractDao {
     private static String checkNameAndCateogry = "select count(*) from BrandPojo p where brandName=:brandName and brandCategory=:brandCategory";
 
     @Transactional
-    public void insert(BrandPojo p) throws ApiException {
-        int id = checkBrandAndCategory(p.getBrandName(), p.getBrandCategory());
-        if (id != 0)
-            throw new ApiException("Brand Name And Category Already Exists");
+    public void insert(BrandPojo p)  {
+        //check in service layer
+//        int id = checkBrandAndCategory(p.getBrandName(), p.getBrandCategory());
+//        if (id != 0)
+//            throw new ApiException("Brand Name And Category Already Exists");
         em.persist(p);
     }
 
