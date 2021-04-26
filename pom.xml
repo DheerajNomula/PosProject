@@ -31,7 +31,7 @@
         <commons-dbcp.version>1.4</commons-dbcp.version>
         <spring-security>4.2.13.RELEASE</spring-security>
         <javax-version>1.3.2</javax-version>
-        <commons-io-version>2.6</commons-io-version>
+        <commons-io-version>2.7</commons-io-version>
         <apache-fop-version>2.3</apache-fop-version>
         <apache-maven-plugin>3.7.1</apache-maven-plugin>
         <maven-jacoco>0.8.5</maven-jacoco>
